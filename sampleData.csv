@@ -1,0 +1,22 @@
+Postcode,Town,Region,country_string,SupplierName,SuppierCode,Monday,Tuesday,Wednesday,Thursday ,Friday
+AB10,Aberdeen,Aberdeen City,Scotland,Supplier1,Supp1,YES,0,YES,0,0
+AB11,Aberdeen,Aberdeen City,Scotland,Supplier1,Supp1,YES,0,YES,0,0
+AB12,Aberdeen,Aberdeen City,Scotland,Supplier1,Supp1,YES,0,YES,0,0
+AB13,Milltimber,Aberdeen City,Scotland,Supplier1,Supp1,YES,0,YES,0,0
+AB14,Peterculter,Aberdeen City,Scotland,Supplier1,Supp1,YES,0,YES,0,0
+AB15,Aberdeen,Aberdeen City,Scotland,Supplier1,Supp1,YES,0,YES,0,0
+AB16,Aberdeen,Aberdeen City,Scotland,Supplier1,Supp1,YES,0,YES,0,0
+AB21,Aberdeen Airport,Aberdeen City,Scotland,Supplier2,Supp2,YES,0,YES,0,0
+AB22,Bridge Of Don,Aberdeen City,Scotland,Supplier3,Supp3,YES,0,YES,0,0
+AB23,Aberdeen,Aberdeen City,Scotland,Supplier3,Supp3,YES,0,YES,0,0
+AB24,Aberdeen,Aberdeen City,Scotland,Supplier3,Supp3,YES,0,YES,0,0
+AB25,Aberdeen,Aberdeen City,Scotland,Supplier3,Supp3,YES,0,0,0,0
+AB30,Laurencekirk,Aberdeenshire,Scotland,Supplier3,Supp3,YES,0,0,0,0
+AB31,Banchory,Aberdeenshire,Scotland,Supplier3,Supp3,YES,0,0,0,0
+AB32,Westhill,Aberdeenshire,Scotland,Supplier3,Supp3,YES,YES,YES,YES,YES
+AB33,Alford,Aberdeenshire,Scotland,Supplier3,Supp3,YES,YES,YES,YES,YES
+AB34,Aboyne,Aberdeenshire,Scotland,Supplier3,Supp3,YES,YES,YES,YES,YES
+AB35,Ballatar,Aberdeenshire,Scotland,Supplier3,Supp3,YES,YES,YES,YES,YES
+AB36,Strathdon,Aberdeenshire,Scotland,Supplier3,Supp3,YES,YES,YES,YES,YES
+AB37,Ballindalloch,Moray,Scotland,Supplier3,Supp3,YES,YES,YES,YES,YES
+AB38,Aberlour,Moray,Scotland,Supplier3,Supp3,YES,YES,YES,YES,YES
