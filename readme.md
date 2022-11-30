@@ -17,5 +17,8 @@ Put this project inside [Xampp](https://www.apachefriends.org/download.html)/htd
  9. Support themes
 ## Next Tasks
  1. Add click listeners in graph
- 2. Add floating div for select time choices
- 3. Add daily data input system
+ 2. connect with database
+ 3. add calculation or total weekly hour
+ 4. add week, month, year view
+## done
+- Add time choices
