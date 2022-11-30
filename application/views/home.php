@@ -28,7 +28,14 @@
             padding: 5px;
             cursor: pointer;
         }
+        .report_and_add{
 
+        }
+        .report_and_add button{
+            position: relative;
+            left: 43.5%;
+            font-size: 22px;
+        }
         .selected {
             background-color: #b2e0e0;
         }
@@ -41,8 +48,9 @@
 <div class="mainDiv">
     <div class="selectTime">Select Time <span id="timeWeek" onclick="changeShowTime(0)">Week</span><span id="timeMonth" onclick="changeShowTime(1)">Month</span><span
                 id="timeYear"  onclick="changeShowTime(2)">Year</span></div>
-    <div>
+    <div class="report_and_add">
         <canvas id="ReportChart" style="width:100%;height: 50%"></canvas>
+        <button>Add Data</button>
     </div>
 
 </div>
