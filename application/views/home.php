@@ -5,59 +5,74 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="shortcut icon" href="assets/templates/classic/images/" type="image/x-icon">
     <title>Work Report</title>
 
     <!-- main css -->
     <style>
-        h1{
+        h1 {
             text-align: center;
         }
-        .mainDiv{
+
+        .mainDiv {
             margin-top: 3%;
         }
-        .selectTime{
+
+        .selectTime {
             position: relative;
-            left: 45%;
+            left: 38%;
             cursor: default;
         }
-        .selectTime span{
+
+        .selectTime span {
             border: 1px black dotted;
             padding: 5px;
             cursor: pointer;
         }
+
+        .selected {
+            background-color: #b2e0e0;
+        }
     </style>
-<script src="<?php echo base_url() ?>assets/js/Chart.js"></script>
+    <script src="<?php echo base_url() ?>assets/js/Chart.js"></script>
 </head>
 
 <body>
-    <h1>Freelancer/Remote Job Report</h1>
-    <div class="mainDiv">
-        <div class="selectTime">Select Time <span>Week</span></div>
-        <div>
-            <canvas id="ReportChart" style="width:100%;height: 50%"></canvas>
-        </div>
-
+<h1>Freelancer/Remote Job Report</h1>
+<div class="mainDiv">
+    <div class="selectTime">Select Time <span id="timeWeek" onclick="changeShowTime(0)">Week</span><span id="timeMonth" onclick="changeShowTime(1)">Month</span><span
+                id="timeYear"  onclick="changeShowTime(2)">Year</span></div>
+    <div>
+        <canvas id="ReportChart" style="width:100%;height: 50%"></canvas>
     </div>
-    <script>
-        var xValues = ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"];
-        var yValues = [7,8,8,9,9,9,10];
 
-        var reportChart=new Chart("ReportChart", {
-            type: "line",
-            data: {
-                labels: xValues,
-                datasets: [{
-                    backgroundColor: "rgba(110,202,141,1)",
-                    borderColor: "rgba(0,0,0,0.1)",
-                    data: yValues
-                }]
-            },
-            options:{
-                legend: {display: false,}
-            }
-        });
-        console.log(reportChart)
-    </script>
+</div>
+<script>
+    var timeLabels = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+    var hours = [7, 8, 8, 9, 9, 9, 10];
+    var timeSelectDivs = [document.getElementById("timeWeek"), document.getElementById("timeMonth"), document.getElementById("timeYear")]
+    var selectedTime=timeSelectDivs[0]
+    //Activating selected time
+    selectedTime.classList.add("selected")
+    var reportChart = new Chart("ReportChart", {
+        type: "line",
+        data: {
+            labels: timeLabels,
+            datasets: [{
+                backgroundColor: "rgba(110,202,141,1)",
+                borderColor: "rgba(0,0,0,0.1)",
+                data: hours
+            }]
+        },
+        options: {
+            legend: {display: false,}
+        }
+    });
+    console.log(reportChart)
+    function changeShowTime(value){
+        selectedTime.classList.remove("selected")
+        selectedTime=timeSelectDivs[value]
+        selectedTime.classList.add("selected")
+    }
+</script>
 </body>
 </html>
