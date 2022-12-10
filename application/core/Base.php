@@ -2,10 +2,7 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 class Base extends CI_Model
 {
-    public $users = "tbl_users";
-    public $vehicles="vehicledb";
-    public $bookings="bookings";
-    public $services="services";
+    public $dailywork="dailywork";
     public function __construct(){
         parent::__construct();
     }

@@ -9,6 +9,7 @@ class dbcon extends Base
     public function savedata($data){
         $this->db->insert("data",$data);
     }
+
     public function  getday($postcode,$town,$region){
         $this->db->from("data");
         if($postcode!=""){

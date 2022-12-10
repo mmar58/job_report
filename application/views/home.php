@@ -32,12 +32,25 @@
 
         }
         .report_and_add button{
-            position: relative;
-            left: 43.5%;
             font-size: 22px;
+            margin-top: 2%;
         }
         .selected {
             background-color: #b2e0e0;
+        }
+        form{
+            width: fit-content;
+            margin: 16px;
+            padding: 21px;
+            border: 1px solid;
+        }
+        form div{
+            width:fit-content;
+        }
+        .centerInside{
+            position: relative;
+            left: 50%;
+            transform: translateX(-50%);
         }
     </style>
     <script src="<?php echo base_url() ?>assets/js/Chart.js"></script>
@@ -50,9 +63,17 @@
                 id="timeYear"  onclick="changeShowTime(2)">Year</span></div>
     <div class="report_and_add">
         <canvas id="ReportChart" style="width:100%;height: 50%"></canvas>
-        <button>Add Data</button>
+        <button class="centerInside" onclick="showHideInputDiv('inputForm')">Add Data</button>
     </div>
-
+    <form id="inputForm" class="centerInside" style="display: none">
+        <div class="centerInside">
+            <input width="10" type="date" name="date">
+        </div>
+        <div class="centerInside">
+            <input width="20" type="number">:<input type="number">
+        </div>
+        <input class="centerInside" type="submit">
+    </form>
 </div>
 <script>
     var timeLabels = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
@@ -80,6 +101,14 @@
         selectedTime.classList.remove("selected")
         selectedTime=timeSelectDivs[value]
         selectedTime.classList.add("selected")
+    }
+    function showHideInputDiv(DivId){
+        var thisDiv=document.getElementById(DivId)
+        if(thisDiv.style.display=="none"){
+            thisDiv.style.display="block"
+        }else{
+            thisDiv.style.display="none"
+        }
     }
 </script>
 </body>
