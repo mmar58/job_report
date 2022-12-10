@@ -67,7 +67,7 @@
     </div>
     <form id="inputForm" class="centerInside" style="display: none">
         <div class="centerInside">
-            <input width="10" type="date" name="date">
+            <input id="DateInput" width="10" type="date" name="date">
         </div>
         <div class="centerInside">
             <input width="20" type="number">:<input type="number">
@@ -105,6 +105,9 @@
     function showHideInputDiv(DivId){
         var thisDiv=document.getElementById(DivId)
         if(thisDiv.style.display=="none"){
+            let tToday=new Date()
+            let tDate=tToday. getFullYear()+'-'+(tToday. getMonth()+1)+'-'+tToday. getDate()
+            document.getElementById("DateInput").value=tDate;
             thisDiv.style.display="block"
         }else{
             thisDiv.style.display="none"
