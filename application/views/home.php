@@ -65,12 +65,12 @@
         <canvas id="ReportChart" style="width:100%;height: 50%"></canvas>
         <button class="centerInside" onclick="showHideInputDiv('inputForm')">Add Data</button>
     </div>
-    <form id="inputForm" class="centerInside" style="display: none">
+    <form action="home/uploadData" method="post" id="inputForm" class="centerInside" style="display: none">
         <div class="centerInside">
             <input id="DateInput" width="10" type="date" name="date">
         </div>
         <div class="centerInside">
-            <input width="20" type="number">:<input type="number">
+            <input width="20" type="number" name="hour">:<input type="number" name="minute">
         </div>
         <input class="centerInside" type="submit">
     </form>
@@ -103,7 +103,7 @@
         selectedTime.classList.add("selected")
     }
     function showHideInputDiv(DivId){
-        var thisDiv=document.getElementById(DivId)
+        let thisDiv=document.getElementById(DivId)
         if(thisDiv.style.display=="none"){
             let tToday=new Date()
             let tDate=tToday. getFullYear()+'-'+(tToday. getMonth()+1)+'-'+tToday. getDate()

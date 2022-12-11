@@ -7,7 +7,8 @@ class dbcon extends Base
         parent::__construct();
     }
     public function savedata($data){
-        $this->db->insert("data",$data);
+        $this->db->insert($this->dailywork,$data);
+        echo "Iam called";
     }
 
     public function  getday($postcode,$town,$region){
