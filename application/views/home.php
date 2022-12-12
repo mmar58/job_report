@@ -52,6 +52,10 @@
             left: 50%;
             transform: translateX(-50%);
         }
+        h3 button{
+            padding: 2px;
+            margin: 5px;
+        }
     </style>
     <script src="<?php echo base_url() ?>assets/js/Chart.js"></script>
 </head>
@@ -59,7 +63,7 @@
 <body>
 <h1>Freelancer/Remote Job Report</h1>
 <div class="mainDiv">
-    <div><h3 id="weekLabel" style="text-align: center">12-03-2022 to 12-08-2022</h3></div>
+    <div><h3 style="text-align: center"><button><</button><span id="weekLabel">12-03-2022 to 12-08-2022</span><button>></button></h3></div>
     <div class="selectTime">Select Time <span id="timeWeek" onclick="changeShowTime(0)">Week</span><span id="timeMonth" onclick="changeShowTime(1)">Month</span><span
                 id="timeYear"  onclick="changeShowTime(2)">Year</span></div>
     <div class="report_and_add">
