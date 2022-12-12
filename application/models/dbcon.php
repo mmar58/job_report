@@ -24,5 +24,8 @@ class dbcon extends Base
         $this->db->where("date",$data['date']);
         $this->db->update($this->dailywork,$data);
     }
-    
+    public function searchByDate($startDate,$endDate){
+        $this->db->where('date BETWEEN "'. $startDate. '" and "'. $endDate.'"');
+        return $this->db->get($this->dailywork)->result_array();
+    }
 }

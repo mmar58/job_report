@@ -74,10 +74,23 @@
         </div>
         <input class="centerInside" type="submit">
     </form>
+    <?php
+
+    ?>
+    <?php
+    $curDay=date('w');
+    $startDate=date("Y-m-d",strtotime((-$curDay+1)." days"));
+    $endDate=date("Y-m-d",strtotime((6-$curDay+1)." days"));
+    $result=$this->dbcon->searchByDate($startDate,$endDate);
+    $timeLabels='';
+    $hours='';
+    ?>
 </div>
 <script>
-    var timeLabels = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
-    var hours = [7, 8, 8, 9, 9, 9, 10];
+
+
+    var timeLabels = ["Monday\n11-02-2022", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+    var hours = [7, 8, 8.2, 9, 9, 9, 10];
     var timeSelectDivs = [document.getElementById("timeWeek"), document.getElementById("timeMonth"), document.getElementById("timeYear")]
     var selectedTime=timeSelectDivs[0]
     //Activating selected time
