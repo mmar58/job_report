@@ -59,6 +59,7 @@
 <body>
 <h1>Freelancer/Remote Job Report</h1>
 <div class="mainDiv">
+    <div><h3 id="weekLabel" style="text-align: center">12-03-2022 to 12-08-2022</h3></div>
     <div class="selectTime">Select Time <span id="timeWeek" onclick="changeShowTime(0)">Week</span><span id="timeMonth" onclick="changeShowTime(1)">Month</span><span
                 id="timeYear"  onclick="changeShowTime(2)">Year</span></div>
     <div class="report_and_add">
@@ -75,9 +76,6 @@
         <input class="centerInside" type="submit">
     </form>
     <?php
-
-    ?>
-    <?php
     $curDay=date('w');
     $startDate=date("Y-m-d",strtotime((-$curDay+1)." days"));
     $endDate=date("Y-m-d",strtotime((6-$curDay+1)." days"));
@@ -85,9 +83,11 @@
     $timeLabels='';
     $hours='';
     ?>
+
 </div>
 <script>
-
+    var primaryColor="#6eca8d"
+    var weekLabel=document.getElementById("weekLabel")
 
     var timeLabels = ["Monday\n11-02-2022", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
     var hours = [7, 8, 8.2, 9, 9, 9, 10];
@@ -95,12 +95,16 @@
     var selectedTime=timeSelectDivs[0]
     //Activating selected time
     selectedTime.classList.add("selected")
+
+    //set primary color before this
+    weekLabel.style.color=primaryColor
+    weekLabel.innerText="<?php echo $startDate." to ".$endDate?>"
     var reportChart = new Chart("ReportChart", {
         type: "line",
         data: {
             labels: timeLabels,
             datasets: [{
-                backgroundColor: "rgba(110,202,141,1)",
+                backgroundColor: primaryColor,
                 borderColor: "rgba(0,0,0,0.1)",
                 data: hours
             }]
