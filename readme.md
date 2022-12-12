@@ -1,5 +1,5 @@
 # Freelancer/Remote Job Report
-![enter image description here](https://gitlab.com/mmar58/job_report/-/raw/8fc052e21779ca29f051e1305eb3b37720f225db/output/job_report.PNG)
+![enter image description here](https://gitlab.com/mmar58/job_report/-/raw/8f92b467bdbeebdc9b20d1bea4ce993ffef5a5d2/output/job_report.PNG)
 ## Background:
 Calculating every minute and hour every week seems boring and repetive task. Why we would do that, If we can write a program to do it far more than better doing it. So this is I am creating for counting your every day, week, year working and earnings. Just input how many hours you have worked, at end of the day.
 ## Install method
