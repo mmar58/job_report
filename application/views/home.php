@@ -12,7 +12,9 @@
         h1 {
             text-align: center;
         }
-
+        h3{
+            margin: 9px;
+        }
         .mainDiv {
             margin-top: 3%;
         }
@@ -56,6 +58,14 @@
             padding: 2px;
             margin: 5px;
         }
+        .containALL{
+            display: inline-flex;
+            padding: 8px;
+            padding-top: 0;
+        }
+        .containALL div{
+            margin-right: 10px;
+        }
     </style>
     <script src="<?php echo base_url() ?>assets/js/Chart.js"></script>
 </head>
@@ -64,6 +74,11 @@
 <h1>Freelancer/Remote Job Report</h1>
 <div class="mainDiv">
     <div><h3 style="text-align: center"><button onclick="window.location.href='<?php echo base_url('home/previousTime');?>'"><</button><span id="weekLabel">12-03-2022 to 12-08-2022</span><button onclick="window.location.href='<?php echo base_url('home/nextTime');?>'">></button></h3></div>
+    <div class="containALL"><div>Target <input type="number" style="width: 32px"> Hours</div><div style="
+    position: relative;
+    top: 2px;
+">Total done <span id="doneHours">0</span> hours</div></div>
+
     <div class="selectTime">Select Time <span id="timeWeek" onclick="changeShowTime(0)">Week</span><span id="timeMonth" onclick="changeShowTime(1)">Month</span><span
                 id="timeYear"  onclick="changeShowTime(2)">Year</span></div>
     <div class="report_and_add">
