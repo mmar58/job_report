@@ -63,7 +63,7 @@
 <body>
 <h1>Freelancer/Remote Job Report</h1>
 <div class="mainDiv">
-    <div><h3 style="text-align: center"><button><</button><span id="weekLabel">12-03-2022 to 12-08-2022</span><button>></button></h3></div>
+    <div><h3 style="text-align: center"><button onclick="window.location.href='<?php echo base_url('home/previousTime');?>'"><</button><span id="weekLabel">12-03-2022 to 12-08-2022</span><button onclick="window.location.href='<?php echo base_url('home/nextTime');?>'">></button></h3></div>
     <div class="selectTime">Select Time <span id="timeWeek" onclick="changeShowTime(0)">Week</span><span id="timeMonth" onclick="changeShowTime(1)">Month</span><span
                 id="timeYear"  onclick="changeShowTime(2)">Year</span></div>
     <div class="report_and_add">
@@ -80,12 +80,28 @@
         <input class="centerInside" type="submit">
     </form>
     <?php
+    if(!isset($_SESSION['curPos'])){
+        $_SESSION['curPos']=0;
+    }
+    if(!isset($_SESSION['timeview'])){
+        $_SESSION['timeview']="week";
+    }
     $curDay=date('w');
+    if($_SESSION['timeview']=="week"){
+        $curDay+= $_SESSION['curPos']*7;
+    }
+
     $startDate=date("Y-m-d",strtotime((-$curDay+1)." days"));
     $endDate=date("Y-m-d",strtotime((6-$curDay+1)." days"));
     $result=$this->dbcon->searchByDate($startDate,$endDate);
     $timeLabels='';
     $hours='';
+    foreach ($result as $row){
+        $timeLabels.='"'.date("l m-d-Y",strtotime($row['date'])).'",';
+        $chour=$row['hour']+$row['minutes']/60;
+        $hours.='"'.$chour.'",';
+    }
+
     ?>
 
 </div>
@@ -93,8 +109,8 @@
     var primaryColor="#6eca8d"
     var weekLabel=document.getElementById("weekLabel")
 
-    var timeLabels = ["Monday\n11-02-2022", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
-    var hours = [7, 8, 8.2, 9, 9, 9, 10];
+    var timeLabels = [<?php echo $timeLabels;?>];
+    var hours = [<?php echo $hours;?>];
     var timeSelectDivs = [document.getElementById("timeWeek"), document.getElementById("timeMonth"), document.getElementById("timeYear")]
     var selectedTime=timeSelectDivs[0]
     //Activating selected time

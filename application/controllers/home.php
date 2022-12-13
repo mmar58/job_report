@@ -14,6 +14,14 @@ class home extends CI_Controller
 
         $this->load->view("home");
 	}
+    public function previousTime(){
+        $_SESSION['curPos']+=1;
+        redirect('');
+    }
+    public function nextTime(){
+        $_SESSION['curPos']-=1;
+        redirect('');
+    }
     public function uploadData(){
         $date=$_POST['date'];
         $hour=$_POST['hour'];
