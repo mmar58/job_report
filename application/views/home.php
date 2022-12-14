@@ -77,7 +77,7 @@
     <div class="containALL"><div>Target <input type="number" style="width: 32px"> Hours</div><div style="
     position: relative;
     top: 2px;
-">Total done <span id="doneHours">0</span> hours</div></div>
+">Total done <span id="doneTime"></span></div></div>
 
     <div class="selectTime">Select Time <span id="timeWeek" onclick="changeShowTime(0)">Week</span><span id="timeMonth" onclick="changeShowTime(1)">Month</span><span
                 id="timeYear"  onclick="changeShowTime(2)">Year</span></div>
@@ -111,12 +111,16 @@
     $result=$this->dbcon->searchByDate($startDate,$endDate);
     $timeLabels='';
     $hours='';
+    $totalHours=0;
     foreach ($result as $row){
         $timeLabels.='"'.date("l m-d-Y",strtotime($row['date'])).'",';
         $chour=$row['hour']+$row['minutes']/60;
         $hours.='"'.$chour.'",';
+        $totalHours+=$chour;
     }
-
+    $showHours=(int)$totalHours;
+    $showMinutes=($totalHours-$showHours)*60;
+    echo $showHours;
     ?>
 
 </div>
@@ -126,11 +130,18 @@
 
     var timeLabels = [<?php echo $timeLabels;?>];
     var hours = [<?php echo $hours;?>];
+    var doneTime=document.getElementById(("doneTime"))
     var timeSelectDivs = [document.getElementById("timeWeek"), document.getElementById("timeMonth"), document.getElementById("timeYear")]
     var selectedTime=timeSelectDivs[0]
     //Activating selected time
     selectedTime.classList.add("selected")
 
+    doneTime.innerText="<?php if($showHours>0){
+        echo $showHours." hours ";
+    }
+        if($showMinutes>0){
+            echo $showMinutes." minutes ";
+        }?>"
     //set primary color before this
     weekLabel.style.color=primaryColor
     weekLabel.innerText="<?php echo $startDate." to ".$endDate?>"
