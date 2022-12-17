@@ -39,4 +39,8 @@ class home extends CI_Controller
         );
         $this->dbcon->savedata($report);
     }
+    //APIs
+    public function TargetHour(){
+
+    }
 }

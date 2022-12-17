@@ -74,7 +74,7 @@
 <h1>Freelancer/Remote Job Report</h1>
 <div class="mainDiv">
     <div><h3 style="text-align: center"><button onclick="window.location.href='<?php echo base_url('home/previousTime');?>'"><</button><span id="weekLabel">12-03-2022 to 12-08-2022</span><button onclick="window.location.href='<?php echo base_url('home/nextTime');?>'">></button></h3></div>
-    <div class="containALL"><div>Target <input type="number" style="width: 32px"> Hours</div><div style="
+    <div class="containALL"><div>Target <input onchange="HourTargetChanged(this.value)" type="number" style="width: 32px"> Hours</div><div style="
     position: relative;
     top: 2px;
 ">Total done <span id="doneTime"></span></div></div>
@@ -175,6 +175,9 @@
         }else{
             thisDiv.style.display="none"
         }
+    }
+    function HourTargetChanged(targetHour){
+        console.log(targetHour)
     }
 </script>
 </body>
