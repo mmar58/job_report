@@ -94,6 +94,10 @@
         </div>
         <input class="centerInside" type="submit">
     </form>
+    <div class="containALL">Last  Worked Hours - <span id="lasWorkHours"></span></div>
+    <div class="report_and_add">
+        <canvas id="PreReportChart" style="width:100%;height: 50%"></canvas>
+    </div>
     <?php
     if(!isset($_SESSION['curPos'])){
         $_SESSION['curPos']=0;
@@ -105,22 +109,45 @@
     if($_SESSION['timeview']=="week"){
         $curDay+= $_SESSION['curPos']*7;
     }
-
     $startDate=date("Y-m-d",strtotime((-$curDay+1)." days"));
     $endDate=date("Y-m-d",strtotime((6-$curDay+1)." days"));
     $result=$this->dbcon->searchByDate($startDate,$endDate);
     $timeLabels='';
     $hours='';
-    $totalHours=0;
+    $showHours=0;
+    $showMinutes=0;
     foreach ($result as $row){
         $timeLabels.='"'.date("l m-d-Y",strtotime($row['date'])).'",';
+        $showHours+=$row['hour'];
+        $showMinutes+=$row['minutes'];
         $chour=$row['hour']+$row['minutes']/60;
         $hours.='"'.$chour.'",';
-        $totalHours+=$chour;
     }
-    $showHours=(int)$totalHours;
-    $showMinutes=($totalHours-$showHours)*60;
-    echo $showHours;
+    $ExtraHours=(int)($showMinutes/60);
+    $showHours+=$ExtraHours;
+    $showMinutes-=$ExtraHours*60;
+
+    //Second Graph
+    if($_SESSION['timeview']=="week"){
+        $curDay+= ($_SESSION['curPos']+1)*7;
+    }
+    $startDate=date("Y-m-d",strtotime((-$curDay+1)." days"));
+    $endDate=date("Y-m-d",strtotime((6-$curDay+1)." days"));
+    $result=$this->dbcon->searchByDate($startDate,$endDate);
+    $PretimeLabels='';
+    $Prehours='';
+    $PreshowHours=0;
+    $PreshowMinutes=0;
+    foreach ($result as $row){
+        $PretimeLabels.='"'.date("l m-d-Y",strtotime($row['date'])).'",';
+        $PreshowHours+=$row['hour'];
+        $PreshowMinutes+=$row['minutes'];
+        $chour=$row['hour']+$row['minutes']/60;
+        $Prehours.='"'.$chour.'",';
+    }
+    $ExtraHours=(int)($PreshowMinutes/60);
+    $PreshowHours+=$ExtraHours;
+    $PreshowMinutes-=$ExtraHours*60;
     ?>
 
 </div>
@@ -130,11 +157,20 @@
 
     var timeLabels = [<?php echo $timeLabels;?>];
     var hours = [<?php echo $hours;?>];
+    //Second graph
+    var PretimeLabels = [<?php echo $PretimeLabels;?>];
+    var Prehours = [<?php echo $Prehours;?>];
     var doneTime=document.getElementById(("doneTime"))
     var timeSelectDivs = [document.getElementById("timeWeek"), document.getElementById("timeMonth"), document.getElementById("timeYear")]
     var selectedTime=timeSelectDivs[0]
     //Activating selected time
     selectedTime.classList.add("selected")
+    document.getElementById("lasWorkHours").innerText=" <?php if($PreshowHours>0){
+        echo $PreshowHours." hours ";
+    }
+        if($PreshowMinutes>0){
+            echo $PreshowMinutes." minutes ";
+        }?>"
 
     doneTime.innerText="<?php if($showHours>0){
         echo $showHours." hours ";
@@ -153,6 +189,20 @@
                 backgroundColor: primaryColor,
                 borderColor: "rgba(0,0,0,0.1)",
                 data: hours
+            }]
+        },
+        options: {
+            legend: {display: false,}
+        }
+    });
+    var PrereportChart = new Chart("PreReportChart", {
+        type: "line",
+        data: {
+            labels: PretimeLabels,
+            datasets: [{
+                backgroundColor: primaryColor,
+                borderColor: "rgba(0,0,0,0.1)",
+                data: Prehours
             }]
         },
         options: {
