@@ -128,12 +128,13 @@
     $showMinutes-=$ExtraHours*60;
 
     //Second Graph
+    $curDay=date('w');
     if($_SESSION['timeview']=="week"){
         $curDay+= ($_SESSION['curPos']+1)*7;
     }
-    $startDate=date("Y-m-d",strtotime((-$curDay+1)." days"));
-    $endDate=date("Y-m-d",strtotime((6-$curDay+1)." days"));
-    $result=$this->dbcon->searchByDate($startDate,$endDate);
+    $PrestartDate=date("Y-m-d",strtotime((-$curDay+1)." days"));
+    $PreendDate=date("Y-m-d",strtotime((6-$curDay+1)." days"));
+    $result=$this->dbcon->searchByDate($PrestartDate,$PreendDate);
     $PretimeLabels='';
     $Prehours='';
     $PreshowHours=0;
