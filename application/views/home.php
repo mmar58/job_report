@@ -220,11 +220,23 @@
         let thisDiv=document.getElementById(DivId)
         if(thisDiv.style.display=="none"){
             let tToday=new Date()
-            let tDate=tToday. getFullYear()+'-'+(tToday. getMonth()+1)+'-'+tToday. getDate()
+            let tDate=tToday. getFullYear()+'-'+(formatInTwoDecimal(tToday. getMonth()+1))+'-'+formatInTwoDecimal(tToday. getDate())
+            console.log(tDate)
             document.getElementById("DateInput").value=tDate;
             thisDiv.style.display="block"
         }else{
             thisDiv.style.display="none"
+        }
+    }
+    function formatInTwoDecimal(number) {
+        if (number == 0) {
+            return "00"
+        }
+        else if (number > 9) {
+            return number + ""
+        }
+        else {
+            return "0" + number
         }
     }
     function HourTargetChanged(targetHour){

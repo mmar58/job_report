@@ -6,8 +6,6 @@ class home extends CI_Controller
     {
         parent::__construct();
         $this->load->model('dbcon');
-        $this->load->helper('url');
-        $_SESSION['version']='1.04';
     }
 
 	public function index(){
