@@ -26,6 +26,7 @@ class dbcon extends Base
     }
     public function searchByDate($startDate,$endDate){
         $this->db->where('date BETWEEN "'. $startDate. '" and "'. $endDate.'"');
+        $this->db->order_by("date asc");
         return $this->db->get($this->dailywork)->result_array();
     }
 }
