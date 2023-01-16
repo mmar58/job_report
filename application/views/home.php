@@ -66,12 +66,30 @@
         .containALL div{
             margin-right: 10px;
         }
+        .menu_button{
+            position: absolute;
+            height: 5.5%;
+            right: 4%;
+        }
+        .menu_div{
+            position: absolute;
+            width: 300px;
+            height: 90%;
+            right: -300px;
+            bottom: -10%;
+            background-color: #4F5155;
+        }
     </style>
     <script src="<?php echo base_url() ?>assets/js/Chart.js"></script>
+    <script src="<?php echo base_url() ?>assets/js/gsap.min.js"></script>
 </head>
 
 <body>
 <h1>Freelancer/Remote Job Report</h1>
+<img onclick="rotateMenu()" class="menu_button" src="<?php echo base_url() ?>assets/images/menu.png">
+<div class="menu_div">
+
+</div>
 <div class="mainDiv">
     <div><h3 style="text-align: center"><button onclick="window.location.href='<?php echo base_url('home/previousTime');?>'"><</button><span id="weekLabel">12-03-2022 to 12-08-2022</span><button onclick="window.location.href='<?php echo base_url('home/nextTime');?>'">></button></h3></div>
     <div class="containALL"><div>Target <input onchange="HourTargetChanged(this.value)" type="number" style="width: 32px"> Hours</div><div style="
@@ -152,6 +170,27 @@
     ?>
 
 </div>
+<!--Gsap Animation functions-->
+<script>
+    var MenuIsHidden=true
+    //const {gsap} = require("../../assets/js/gsap.min");
+
+    function rotateMenu(){
+        if(MenuIsHidden){
+            gsap.to(".menu_button",{rotation:180,duration:.5})
+            gsap.to(".menu_div",{right:"0px",duration: .5})
+            MenuIsHidden=false
+        }
+        else{
+            gsap.to(".menu_button",{rotation:0,duration:.5})
+            gsap.to(".menu_div",{right:"-300px",duration: .5})
+            MenuIsHidden=true
+        }
+        console.log("rotated")
+
+    }
+</script>
+<!--End Gsap Animation functions-->
 <script>
     var primaryColor="#6eca8d"
     var weekLabel=document.getElementById("weekLabel")
