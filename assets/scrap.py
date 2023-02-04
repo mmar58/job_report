@@ -10,6 +10,7 @@ mydb=connector.connect(
     password="123456",
     database="job_report"
 )
+email="rahmanapu118@gmail.com"
 cursor=mydb.cursor()
 print("Content-Type: text/html\n\n")
 output={"result":[]}
@@ -39,7 +40,7 @@ def printOutput():
     for row in output["result"]:
         saveData(row)
 def GetWorkingTime(date):
-    webdata=BeautifulSoup(requests.get("https://data.staffcounter.net/report/rahmanapu118@gmail.com?date="+date).content, 'html.parser')
+    webdata=BeautifulSoup(requests.get("https://data.staffcounter.net/report/"+email+"?date="+date).content, 'html.parser')
     closerdata=webdata.find('div', {"style": "display: inline-block;vertical-align: middle;"})
     data=closerdata.parent.find_next('td').text.strip()
     output["result"].append({"date":date,"data":data})
