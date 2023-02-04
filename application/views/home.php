@@ -77,7 +77,19 @@
             height: 90%;
             right: -300px;
             bottom: -10%;
+            z-index: 20;
             background-color: #4F5155;
+        }
+        .menu_div ul{
+            list-style-type: none;
+        }
+        .menu_div ul button{
+            margin-top: 12px;
+            font-size: 16px;
+            padding: 4px;
+        }
+        .menu_div ul input{
+            width: 40px;
         }
     </style>
     <script src="<?php echo base_url() ?>assets/js/Chart.js"></script>
@@ -88,7 +100,11 @@
 <h1>Freelancer/Remote Job Report</h1>
 <img onclick="rotateMenu()" class="menu_button" src="<?php echo base_url() ?>assets/images/menu.png">
 <div class="menu_div">
-
+    <ul>
+        <li>Per Hour Rate <input style="width: 50px" type="number"> <span>BDT</span></li>
+        <li><button onclick="fetchtoday()">Sync today</button></li>
+        <li><button onclick="fetchDays()">Sync</button> Last <input id="syncDays" type="number"> days</li>
+    </ul>
 </div>
 <div class="mainDiv">
     <div><h3 style="text-align: center"><button onclick="window.location.href='<?php echo base_url('home/previousTime');?>'"><</button><span id="weekLabel">12-03-2022 to 12-08-2022</span><button onclick="window.location.href='<?php echo base_url('home/nextTime');?>'">></button></h3></div>
@@ -170,6 +186,24 @@
     ?>
 
 </div>
+<!--Fetch functions are here-->
+<script>
+    function fetchtoday(){
+        rotateMenu()
+        fetch('http://localhost/job_report/assets/scrap.py')
+            .then((data) => window.location.reload());
+    }
+    function fetchDays(){
+        var data=document.getElementById("syncDays").value
+        if(data!=null||data!=""){
+            rotateMenu()
+            fetch('http://localhost/job_report/assets/scrap.py?days='+data)
+                .then((data) => window.location.reload());
+        }else{
+            fetchtoday()
+        }
+    }
+</script>
 <!--Gsap Animation functions-->
 <script>
     var MenuIsHidden=true

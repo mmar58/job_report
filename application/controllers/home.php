@@ -41,4 +41,8 @@ class home extends CI_Controller
     public function TargetHour(){
 
     }
+    public function SetPrice(){
+        $price=$_GET['price'];
+        echo $price;
+    }
 }
