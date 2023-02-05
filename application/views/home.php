@@ -66,6 +66,11 @@
         .containALL div{
             margin-right: 10px;
         }
+        .menu_div_top{
+            position: absolute;
+            top: 9.5%;
+            right: 2.5%;
+        }
         .menu_button{
             position: absolute;
             height: 5.5%;
@@ -99,10 +104,10 @@
 <body>
 <h1>Freelancer/Remote Job Report</h1>
 <img onclick="rotateMenu()" class="menu_button" src="<?php echo base_url() ?>assets/images/menu.png">
+<button class="menu_div_top" onclick="fetchtoday()">Sync today</button>
 <div class="menu_div">
     <ul>
         <li>Per Hour Rate <input style="width: 50px" type="number"> <span>BDT</span></li>
-        <li><button onclick="fetchtoday()">Sync today</button></li>
         <li><button onclick="fetchDays()">Sync</button> Last <input id="syncDays" type="number"> days</li>
     </ul>
 </div>
@@ -189,7 +194,6 @@
 <!--Fetch functions are here-->
 <script>
     function fetchtoday(){
-        rotateMenu()
         fetch('http://localhost/job_report/assets/scrap.py')
             .then((data) => window.location.reload());
     }
@@ -200,6 +204,7 @@
             fetch('http://localhost/job_report/assets/scrap.py?days='+data)
                 .then((data) => window.location.reload());
         }else{
+            rotateMenu()
             fetchtoday()
         }
     }
