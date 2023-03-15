@@ -29,4 +29,11 @@ class dbcon extends Base
         $this->db->order_by("date asc");
         return $this->db->get($this->dailywork)->result_array();
     }
+    public function GetHourRate($date){
+        $this->db->from("hourrate");
+        $this->db->where("date<='".$date."'");
+        $this->db->order_by("date desc");
+        $this->db->limit(1);
+        return $this->db->get()->result_array();
+    }
 }

@@ -107,7 +107,7 @@
 <button class="menu_div_top" onclick="fetchtoday()">Sync today</button>
 <div class="menu_div">
     <ul>
-        <li>Per Hour Rate <input style="width: 50px" type="number"> <span>BDT</span></li>
+        <li>Per Hour Rate <input style="width: 50px" type="number"> <span>BDT</span><button>Set</button></li>
         <li><button onclick="fetchDays()">Sync</button> Last <input id="syncDays" type="number"> days</li>
     </ul>
 </div>
@@ -116,7 +116,7 @@
     <div class="containALL"><div>Target <input onchange="HourTargetChanged(this.value)" type="number" style="width: 32px"> Hours</div><div style="
     position: relative;
     top: 2px;
-">Total done <span id="doneTime"></span></div></div>
+"><b>Total done</b> <span id="doneTime"></span> <b> Earning </b> <span id="Earning1"></span></div>  </div>
 
     <div class="selectTime">Select Time <span id="timeWeek" onclick="changeShowTime(0)">Week</span><span id="timeMonth" onclick="changeShowTime(1)">Month</span><span
                 id="timeYear"  onclick="changeShowTime(2)">Year</span></div>
@@ -133,7 +133,10 @@
         </div>
         <input class="centerInside" type="submit">
     </form>
-    <div class="containALL">Last  Worked Hours - <span id="lasWorkHours"></span></div>
+    <div class="containALL">
+        <div>Last  Worked Hours - <span id="lasWorkHours"></span><span> <b>Earning</b> </span><span id="Earning2"></span>
+        </div>
+    </div>
     <div class="report_and_add">
         <canvas id="PreReportChart" style="width:100%;height: 50%"></canvas>
     </div>
@@ -148,8 +151,17 @@
     if($_SESSION['timeview']=="week"){
         $curDay+= $_SESSION['curPos']*7;
     }
+    $Earning1=0;$Earning2=0;
+
     $startDate=date("Y-m-d",strtotime((-$curDay+1)." days"));
     $endDate=date("Y-m-d",strtotime((6-$curDay+1)." days"));
+
+    try{
+        $Earning1=$this->dbcon->GetHourRate($startDate)[0]["price"];
+    }
+    catch (Exception $ex){
+
+    }
     $result=$this->dbcon->searchByDate($startDate,$endDate);
     $timeLabels='';
     $hours='';
@@ -165,7 +177,7 @@
     $ExtraHours=(int)($showMinutes/60);
     $showHours+=$ExtraHours;
     $showMinutes-=$ExtraHours*60;
-
+    $Earning1=$Earning1*$showHours+$Earning1*$showMinutes/60;
     //Second Graph
     $curDay=date('w');
     if($_SESSION['timeview']=="week"){
@@ -173,6 +185,14 @@
     }
     $PrestartDate=date("Y-m-d",strtotime((-$curDay+1)." days"));
     $PreendDate=date("Y-m-d",strtotime((6-$curDay+1)." days"));
+
+    try{
+        $Earning2=$this->dbcon->GetHourRate($PrestartDate)[0]["price"];
+
+    }
+    catch (Exception $ex){
+
+    }
     $result=$this->dbcon->searchByDate($PrestartDate,$PreendDate);
     $PretimeLabels='';
     $Prehours='';
@@ -188,11 +208,18 @@
     $ExtraHours=(int)($PreshowMinutes/60);
     $PreshowHours+=$ExtraHours;
     $PreshowMinutes-=$ExtraHours*60;
+    $Earning2=$Earning2*$PreshowHours+$Earning2*$PreshowMinutes/60;
+
     ?>
 
 </div>
 <!--Fetch functions are here-->
 <script>
+    //Starting setting earning
+    document.getElementById("Earning1").innerText=<?Php echo $Earning1;?>
+
+    document.getElementById("Earning2").innerText=<?Php echo $Earning2;?>
+
     function fetchtoday(){
         fetch('http://localhost/job_report/assets/scrap.py')
             .then((data) => window.location.reload());

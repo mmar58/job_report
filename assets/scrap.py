@@ -3,6 +3,7 @@ import requests,cgi,json
 from bs4 import BeautifulSoup
 from datetime import date
 from datetime import timedelta
+from datetime import datetime
 import mysql.connector as connector
 mydb=connector.connect(
     host="localhost",
@@ -46,6 +47,13 @@ def GetWorkingTime(date):
     output["result"].append({"date":date,"data":data})
 import cgi
 
+# GetWorkingTime("2022-11-23")
+# GetWorkingTime("2022-11-22")
+# GetWorkingTime("2022-11-21")
+# GetWorkingTime("2022-11-20")
+# GetWorkingTime("2022-11-19")
+# GetWorkingTime("2022-11-24")
+# printOutput()
 # Get the form data from the request
 form = cgi.FieldStorage()
 

@@ -45,6 +45,8 @@ Note sync is work for staffcounter system
 3. Yearly Report
 4. Can auto sync on demand from staff counter
 
+
+
 5. Can set your own currencey
 
 6. Can set payment currencey
