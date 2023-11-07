@@ -1,6 +1,6 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
-class home extends CI_Controller
+class Home extends CI_Controller
 {
     public function __construct()
     {
@@ -44,5 +44,15 @@ class home extends CI_Controller
     public function SetPrice(){
         $price=$_GET['price'];
         echo $price;
+    }
+    public function GetExtraHour($date){
+        $result=$this->dbcon->GetExtraTime($date);
+        if(count($result)>0){
+            echo $result[0]["extraminutes"];
+        }
+    }
+    public function SetExtraTime(){
+        $date=$_GET['date'];
+        $extraTime=$_GET['extraTime'];
     }
 }

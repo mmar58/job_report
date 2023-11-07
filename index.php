@@ -53,7 +53,7 @@
  *
  * NOTE: If you change these, also change the error_reporting() code below
  */
-	define('ENVIRONMENT', isset($_SERVER['CI_ENV']) ? $_SERVER['CI_ENV'] : 'development');
+	define('ENVIRONMENT', isset($_SERVER['CI_ENV']) ? $_SERVER['CI_ENV'] : 'production');
 
 /*
  *---------------------------------------------------------------
@@ -98,7 +98,6 @@ switch (ENVIRONMENT)
  * Set the path if it is not in the same directory as this file.
  */
 	$system_path = 'system';
-
 /*
  *---------------------------------------------------------------
  * APPLICATION DIRECTORY NAME
@@ -312,4 +311,6 @@ switch (ENVIRONMENT)
  *
  * And away we go...
  */
+date_default_timezone_set('Asia/Dhaka');
 require_once BASEPATH.'Core/CodeIgniter.php';
+

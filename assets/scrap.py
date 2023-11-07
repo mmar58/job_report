@@ -1,9 +1,8 @@
-#!C:\Python310\Python.exe
+#!C:\Python312\Python.exe
 import requests,cgi,json
 from bs4 import BeautifulSoup
 from datetime import date
 from datetime import timedelta
-from datetime import datetime
 import mysql.connector as connector
 mydb=connector.connect(
     host="localhost",
@@ -31,9 +30,11 @@ def saveData(thedata):
     if(len(testmin)>1):
         minute=testmin[0].replace(" ","")
     if result==[]:
+        print("insert into dailywork (date,hour,minutes) values (%s,%s,%s)",(thedata['date'],hour,minute))
         cursor.execute("insert into dailywork (date,hour,minutes) values (%s,%s,%s)",(thedata['date'],hour,minute))
         mydb.commit()
     else:
+        print("update dailywork set hour='"+hour+"', minutes = '"+minute+"' where date='"+thedata["date"]+"'")
         cursor.execute("update dailywork set hour='"+hour+"', minutes = '"+minute+"' where date='"+thedata["date"]+"'")
         print("updated")
         mydb.commit()
@@ -41,10 +42,14 @@ def printOutput():
     for row in output["result"]:
         saveData(row)
 def GetWorkingTime(date):
-    webdata=BeautifulSoup(requests.get("https://data.staffcounter.net/report/"+email+"?date="+date).content, 'html.parser')
-    closerdata=webdata.find('div', {"style": "display: inline-block;vertical-align: middle;"})
-    data=closerdata.parent.find_next('td').text.strip()
-    output["result"].append({"date":date,"data":data})
+    print("https://data.staffcounter.net/report/"+email+"?date="+date)
+    webdata=BeautifulSoup(requests.get("https://data.staffcounter.net/report/"+email+"?reloaded=1&date="+date).content, 'html.parser')
+    print(webdata)
+    closerdata=webdata.find('div', {"id": "productivity_chart_271037"})
+    print(closerdata)
+    # data=closerdata.parent.find_next('td').text.strip()
+    # print(date+" "+data)
+    # output["result"].append({"date":date,"data":data})
 import cgi
 
 # GetWorkingTime("2022-11-23")
@@ -66,8 +71,7 @@ else:
     days=int(days)
     count=0
     while count<days:
-        GetWorkingTime(str(date.today()-timedelta(days=count)))
+        GetWorkingTime(str(date.today()-timedelta(count)))
         count+=1
     printOutput()
-
         

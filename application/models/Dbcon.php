@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 require_once APPPATH.'core/Base.php';
-class dbcon extends Base
+class Dbcon extends Base
 {
     public function __construct(){
         parent::__construct();
@@ -31,9 +31,18 @@ class dbcon extends Base
     }
     public function GetHourRate($date){
         $this->db->from("hourrate");
-        $this->db->where("date<='".$date."'");
-        $this->db->order_by("date desc");
+//        $this->db->where("date<'".$date."'");
+        $this->db->order_by("date DESC");
         $this->db->limit(1);
         return $this->db->get()->result_array();
+    }
+    public function GetExtraTime($date){
+        $this->db->from($this->dailywork);
+        $this->db->where("date",$date);
+        return $this->db->get()->result_array();
+    }
+    public function SetExtraTime($date,$data){
+        $this->db->where("date",$date);
+        $this->db->update($this->dailywork,$data);
     }
 }

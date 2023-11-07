@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -66,35 +67,29 @@
         .containALL div{
             margin-right: 10px;
         }
-        .menu_div_top{
+    </style>
+<!-- Add Data Style -->
+    <style>
+        .addDataDiv{
             position: absolute;
-            top: 9.5%;
-            right: 2.5%;
+            top: 20%;
+            width: 400px;
+            height: 60%;
+            left: 50%;
+            transform: translate(-50%);
+            background-color: #f0f8ffcc;
         }
-        .menu_button{
-            position: absolute;
-            height: 5.5%;
-            right: 4%;
+        .addDataDiv h2{
+            background-color: #6eca8da3;
         }
-        .menu_div{
-            position: absolute;
-            width: 300px;
-            height: 90%;
-            right: -300px;
-            bottom: -10%;
-            z-index: 20;
-            background-color: #4F5155;
-        }
-        .menu_div ul{
-            list-style-type: none;
-        }
-        .menu_div ul button{
-            margin-top: 12px;
-            font-size: 16px;
-            padding: 4px;
-        }
-        .menu_div ul input{
-            width: 40px;
+        .addDataDiv h2 button{
+            transform: translateY(-10%);
+            width: 45%;
+            height: 100%;
+            margin-left: 2.5%;
+            margin-right: 2.5%;
+            margin-bottom: .5%;
+            margin-top: .5%;
         }
     </style>
     <script src="<?php echo base_url() ?>assets/js/Chart.js"></script>
@@ -103,20 +98,13 @@
 
 <body>
 <h1>Freelancer/Remote Job Report</h1>
-<img onclick="rotateMenu()" class="menu_button" src="<?php echo base_url() ?>assets/images/menu.png">
-<button class="menu_div_top" onclick="fetchtoday()">Sync today</button>
-<div class="menu_div">
-    <ul>
-        <li>Per Hour Rate <input style="width: 50px" type="number"> <span>BDT</span><button>Set</button></li>
-        <li><button onclick="fetchDays()">Sync</button> Last <input id="syncDays" type="number"> days</li>
-    </ul>
-</div>
+<!--Main Div-->
 <div class="mainDiv">
     <div><h3 style="text-align: center"><button onclick="window.location.href='<?php echo base_url('home/previousTime');?>'"><</button><span id="weekLabel">12-03-2022 to 12-08-2022</span><button onclick="window.location.href='<?php echo base_url('home/nextTime');?>'">></button></h3></div>
     <div class="containALL"><div>Target <input onchange="HourTargetChanged(this.value)" type="number" style="width: 32px"> Hours</div><div style="
     position: relative;
     top: 2px;
-"><b>Total done</b> <span id="doneTime"></span> <b> Earning </b> <span id="Earning1"></span></div>  </div>
+"><b>Total done</b> <span id="doneTime"></span> <b> Earning </b> <span id="Earning1"></span><?php print_r($this->dbcon->GetHourRate("2023-01-22")) ?></div>  </div>
 
     <div class="selectTime">Select Time <span id="timeWeek" onclick="changeShowTime(0)">Week</span><span id="timeMonth" onclick="changeShowTime(1)">Month</span><span
                 id="timeYear"  onclick="changeShowTime(2)">Year</span></div>
@@ -141,6 +129,7 @@
         <canvas id="PreReportChart" style="width:100%;height: 50%"></canvas>
     </div>
     <?php
+
     if(!isset($_SESSION['curPos'])){
         $_SESSION['curPos']=0;
     }
@@ -152,12 +141,11 @@
         $curDay+= $_SESSION['curPos']*7;
     }
     $Earning1=0;$Earning2=0;
-
+    $hourRate=0;
     $startDate=date("Y-m-d",strtotime((-$curDay+1)." days"));
     $endDate=date("Y-m-d",strtotime((6-$curDay+1)." days"));
-
     try{
-        $Earning1=$this->dbcon->GetHourRate($startDate)[0]["price"];
+        $hourRate=$this->dbcon->GetHourRate($startDate)[0]["price"];
     }
     catch (Exception $ex){
 
@@ -167,17 +155,41 @@
     $hours='';
     $showHours=0;
     $showMinutes=0;
+    $hasTodaysData=false;
     foreach ($result as $row){
+        if($row['date']==date("Y-m-d")){
+            $hasTodaysData=true;
+        }
         $timeLabels.='"'.date("l m-d-Y",strtotime($row['date'])).'",';
         $showHours+=$row['hour'];
-        $showMinutes+=$row['minutes'];
-        $chour=$row['hour']+$row['minutes']/60;
+        $showMinutes+=$row['minutes']+$row['extraminutes'];
+//        echo $showMinutes."<br>";
+        $chour=$row['hour']+($row['minutes']+$row['extraminutes'])/60;
         $hours.='"'.$chour.'",';
+    }
+    if (!isset($_SESSION['CREATED'])) {
+        $_SESSION['CREATED'] = time();
+    }
+    else if (time() - $_SESSION['CREATED'] > 60) {
+        $_SESSION['CREATED'] = time();
+        if($_SESSION['curPos']==0){
+            if($hasTodaysData){
+                file_get_contents("http://localhost/worktime?dates=".date("d-m-Y"));
+            }
+            else{
+                file_get_contents("http://localhost/worktime?dates=".date("d-m-Y").",".date("d-m-Y", strtotime("-1 day")));
+            }
+            redirect(base_url());
+        }
     }
     $ExtraHours=(int)($showMinutes/60);
     $showHours+=$ExtraHours;
     $showMinutes-=$ExtraHours*60;
-    $Earning1=$Earning1*$showHours+$Earning1*$showMinutes/60;
+    if($showMinutes<0){
+        $showHours-=1;
+        $showMinutes=60+$showMinutes;
+    }
+    $Earning1=$hourRate*$showHours+$hourRate*($showMinutes/60);
     //Second Graph
     $curDay=date('w');
     if($_SESSION['timeview']=="week"){
@@ -185,14 +197,6 @@
     }
     $PrestartDate=date("Y-m-d",strtotime((-$curDay+1)." days"));
     $PreendDate=date("Y-m-d",strtotime((6-$curDay+1)." days"));
-
-    try{
-        $Earning2=$this->dbcon->GetHourRate($PrestartDate)[0]["price"];
-
-    }
-    catch (Exception $ex){
-
-    }
     $result=$this->dbcon->searchByDate($PrestartDate,$PreendDate);
     $PretimeLabels='';
     $Prehours='';
@@ -201,18 +205,42 @@
     foreach ($result as $row){
         $PretimeLabels.='"'.date("l m-d-Y",strtotime($row['date'])).'",';
         $PreshowHours+=$row['hour'];
-        $PreshowMinutes+=$row['minutes'];
-        $chour=$row['hour']+$row['minutes']/60;
+        $PreshowMinutes+=$row['minutes']+$row['extraminutes'];
+        $chour=$row['hour']+($row['minutes']+$row['extraminutes'])/60;
         $Prehours.='"'.$chour.'",';
     }
     $ExtraHours=(int)($PreshowMinutes/60);
     $PreshowHours+=$ExtraHours;
     $PreshowMinutes-=$ExtraHours*60;
-    $Earning2=$Earning2*$PreshowHours+$Earning2*$PreshowMinutes/60;
+    $Earning2=$hourRate*$PreshowHours+$hourRate*($PreshowMinutes/60);
 
     ?>
 
 </div>
+<!--<div class="addDataDiv">-->
+<!--<h1>Add Data</h1>-->
+<!--    <h2><button onclick="showAddDataTime()">Time</button><button onclick="showAddDataTimeLine()">Timeline</button></h2>-->
+<!--    <h2 id="AddDataHeader"  style="text-align: center">Time</h2>-->
+<!--    <div id="AddDataTimw" style="width: 100%">-->
+<!--        <div class="centerInside">-->
+<!--            <input id="DateInput" width="10" type="date" name="date">-->
+<!--        </div>-->
+<!--        <div class="centerInside">-->
+<!--            <input width="20" type="number" name="hour">:<input type="number" name="minute">-->
+<!--        </div>-->
+<!--        <input class="centerInside" type="submit">-->
+<!--    </div>-->
+<!--</div>-->
+<!--Add Data Script-->
+<script>
+    var addDataHeader=document.getElementById("AddDataHeader")
+    function showAddDataTime(){
+        addDataHeader.innerText="Time";
+    }
+    function showAddDataTimeLine(){
+        addDataHeader.innerText="Timeline"
+    }
+</script>
 <!--Fetch functions are here-->
 <script>
     //Starting setting earning
@@ -222,14 +250,14 @@
 
     function fetchtoday(){
         fetch('http://localhost/job_report/assets/scrap.py')
-            .then((data) => window.location.reload());
+            .then((data) => console.log(data.text().then((result)=>{console.log(result)})));
     }
     function fetchDays(){
         var data=document.getElementById("syncDays").value
         if(data!=null||data!=""){
             rotateMenu()
             fetch('http://localhost/job_report/assets/scrap.py?days='+data)
-                .then((data) => window.location.reload());
+                .then((data) => console.log(data.text().then((result)=>{console.log(result)})));
         }else{
             rotateMenu()
             fetchtoday()
@@ -295,10 +323,10 @@
                 backgroundColor: primaryColor,
                 borderColor: "rgba(0,0,0,0.1)",
                 data: hours
-            }]
+            }],
         },
         options: {
-            legend: {display: false,}
+            legend: {display: false,},
         }
     });
     var PrereportChart = new Chart("PreReportChart", {
