@@ -3,7 +3,7 @@
 
   
 
-![enter image description here](https://gitlab.com/mmar58/job_report/-/raw/375469ecfbffe86bbc15746d62491db31664108d/output/job_report.PNG)
+![enter image description here](https://github.com/mmar58/job_report/blob/f6de9e63e0ddda3008b7badd947de68f0672dfd5/output/job_report.PNG)
 
   
 
