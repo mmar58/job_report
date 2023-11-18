@@ -3,6 +3,7 @@
 <html lang="en">
 
 <head>
+    <link href="<?php echo base_url("assets/css/bootstrap5.3.2.min.css") ?>" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -18,6 +19,7 @@
         }
         .mainDiv {
             margin-top: 3%;
+            width: 80%;
         }
 
         .selectTime {
@@ -38,8 +40,8 @@
             font-size: 22px;
             margin-top: 2%;
         }
-        .selected {
-            background-color: #b2e0e0;
+        .report_and_add canvas{
+            width: 100%!important;
         }
         form{
             width: fit-content;
@@ -66,6 +68,23 @@
         }
         .containALL div{
             margin-right: 10px;
+        }
+    </style>
+<!-- Side Div -->
+    <style>
+        .sideDiv{
+            width: 20%;
+            position: absolute;
+            top:0px;
+            right: 0px;
+            max-height: 100%;
+            overflow-y: auto;
+        }
+        .sideDiv h4{
+            font-size: 17px;
+        }
+        .sideDiv p{
+            font-size: 16px;
         }
     </style>
 <!-- Add Data Style -->
@@ -98,9 +117,10 @@
 
 <body>
 <h1>Freelancer/Remote Job Report</h1>
+<div><h3 style="text-align: center"><button onclick="window.location.href='<?php echo base_url('home/previousTime');?>'"><</button><span id="weekLabel">12-03-2022 to 12-08-2022</span><button onclick="window.location.href='<?php echo base_url('home/nextTime');?>'">></button></h3></div>
+
 <!--Main Div-->
 <div class="mainDiv">
-    <div><h3 style="text-align: center"><button onclick="window.location.href='<?php echo base_url('home/previousTime');?>'"><</button><span id="weekLabel">12-03-2022 to 12-08-2022</span><button onclick="window.location.href='<?php echo base_url('home/nextTime');?>'">></button></h3></div>
     <div class="containALL"><div>Target <input onchange="HourTargetChanged(this.value)" type="number" style="width: 32px"> Hours</div><div style="
     position: relative;
     top: 2px;
@@ -129,7 +149,8 @@
         <canvas id="PreReportChart" style="width:100%;height: 50%"></canvas>
     </div>
     <?php
-
+    $detailedWorkli="";
+    $tempWeeklyWorkli="";
     if(!isset($_SESSION['curPos'])){
         $_SESSION['curPos']=0;
     }
@@ -160,13 +181,17 @@
         if($row['date']==date("Y-m-d")){
             $hasTodaysData=true;
         }
-        $timeLabels.='"'.date("l m-d-Y",strtotime($row['date'])).'",';
+        $curTimeLabel=date("l m-d-Y",strtotime($row['date']));
+        $timeLabels.='"'.$curTimeLabel.'",';
         $showHours+=$row['hour'];
         $showMinutes+=$row['minutes']+$row['extraminutes'];
 //        echo $showMinutes."<br>";
         $chour=$row['hour']+($row['minutes']+$row['extraminutes'])/60;
         $hours.='"'.$chour.'",';
+        $tempWeeklyWorkli="<li><h4>".$curTimeLabel."(".$row['hour']." h ".($row['minutes']+$row['extraminutes'])." m)</h4><p>".str_replace("\n","<br>",$row["detailedWork"])."</p></li>".$tempWeeklyWorkli;
     }
+    $detailedWorkli.=$tempWeeklyWorkli;
+    $tempWeeklyWorkli="";
     if (!isset($_SESSION['CREATED'])) {
         $_SESSION['CREATED'] = time();
     }
@@ -203,19 +228,30 @@
     $PreshowHours=0;
     $PreshowMinutes=0;
     foreach ($result as $row){
-        $PretimeLabels.='"'.date("l m-d-Y",strtotime($row['date'])).'",';
+        $curTimeLabel=date("l m-d-Y",strtotime($row['date']));
+        $PretimeLabels.='"'.$curTimeLabel.'",';
         $PreshowHours+=$row['hour'];
         $PreshowMinutes+=$row['minutes']+$row['extraminutes'];
         $chour=$row['hour']+($row['minutes']+$row['extraminutes'])/60;
         $Prehours.='"'.$chour.'",';
+        $tempWeeklyWorkli="<li><h4>".$curTimeLabel."(".$row['hour']." h ".($row['minutes']+$row['extraminutes'])." m)</h4><p>".str_replace("\n","<br>",$row["detailedWork"])."</p></li>".$tempWeeklyWorkli;
     }
+    $detailedWorkli.=$tempWeeklyWorkli;
     $ExtraHours=(int)($PreshowMinutes/60);
     $PreshowHours+=$ExtraHours;
     $PreshowMinutes-=$ExtraHours*60;
     $Earning2=$hourRate*$PreshowHours+$hourRate*($PreshowMinutes/60);
-
+    if($PreshowMinutes<0){
+        $PreshowHours--;
+        $PreshowMinutes+=60;
+    }
     ?>
 
+</div>
+<div class="sideDiv">
+    <ul class="list-group">
+    <?php echo $detailedWorkli;?>
+    </ul>
 </div>
 <!--<div class="addDataDiv">-->
 <!--<h1>Add Data</h1>-->
