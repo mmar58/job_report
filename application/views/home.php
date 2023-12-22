@@ -110,12 +110,24 @@
             margin-bottom: .5%;
             margin-top: .5%;
         }
+        .selected{
+            background-color: #11bc1175;
+        }
+        .btn{
+            border: 1px black dotted;
+        }
+        .btn:hover{
+            background-color: rgba(140, 238, 140, 0.57);
+        }
     </style>
     <script src="<?php echo base_url() ?>assets/js/Chart.js"></script>
     <script src="<?php echo base_url() ?>assets/js/gsap.min.js"></script>
 </head>
 
 <body>
+<a href="http://localhost/worktime/?dates=<?php echo date("d-m-Y",strtotime("-1 days")).",".date("d-m-Y"); ?>" style="position: absolute;top: 0%;left: 0%" target="_blank" rel="noopener noreferrer">
+    Open Worktime
+</a>
 <h1>Freelancer/Remote Job Report</h1>
 <div><h3 style="text-align: center"><button onclick="window.location.href='<?php echo base_url('home/previousTime');?>'"><</button><span id="weekLabel">12-03-2022 to 12-08-2022</span><button onclick="window.location.href='<?php echo base_url('home/nextTime');?>'">></button></h3></div>
 
@@ -134,6 +146,10 @@
     </div>
     <form action="home/uploadData" method="post" id="inputForm" class="centerInside" style="display: none">
         <div class="centerInside">
+            <div><h4 onclick="selectedWorkTime()" id="workTimeFormButton" class="selected btn">Work time</h4><h4 onclick="selectedExtraTime()" id="extraTimeFormButton" class="btn">Extra time</h4></div>
+        </div>
+        <input id="timeInputType" type="text" name="type" style="display: none">
+        <div class="centerInside">
             <input id="DateInput" width="10" type="date" name="date">
         </div>
         <div class="centerInside">
@@ -148,6 +164,19 @@
     <div class="report_and_add">
         <canvas id="PreReportChart" style="width:100%;height: 50%"></canvas>
     </div>
+<!-- Add data selection script -->
+    <script>
+        var workTimeFormButton=document.getElementById("workTimeFormButton")
+        var extraTimeFormButton=document.getElementById("extraTimeFormButton")
+        function selectedWorkTime(){
+            extraTimeFormButton.classList.remove("selected")
+            workTimeFormButton.classList.add("selected")
+        }
+        function selectedExtraTime(){
+            extraTimeFormButton.classList.add("selected")
+            workTimeFormButton.classList.remove("selected")
+        }
+    </script>
     <?php
     $detailedWorkli="";
     $tempWeeklyWorkli="";
@@ -192,6 +221,7 @@
     }
     $detailedWorkli.=$tempWeeklyWorkli;
     $tempWeeklyWorkli="";
+//    $_SESSION['CREATED']=0;
     if (!isset($_SESSION['CREATED'])) {
         $_SESSION['CREATED'] = time();
     }
