@@ -10,115 +10,9 @@
     <title>Work Report</title>
 
     <!-- main css -->
-    <style>
-        h1 {
-            text-align: center;
-        }
-        h3{
-            margin: 9px;
-        }
-        .mainDiv {
-            margin-top: 3%;
-            width: 80%;
-        }
+    <link href="<?php echo base_url("assets/css/main.css") ?>" rel="stylesheet">
+    <link href="<?php echo base_url("assets/css/side.css") ?>" rel="stylesheet">
 
-        .selectTime {
-            position: relative;
-            left: 38%;
-            cursor: default;
-        }
-
-        .selectTime span {
-            border: 1px black dotted;
-            padding: 5px;
-            cursor: pointer;
-        }
-        .report_and_add{
-
-        }
-        .report_and_add button{
-            font-size: 22px;
-            margin-top: 2%;
-        }
-        .report_and_add canvas{
-            width: 100%!important;
-        }
-        form{
-            width: fit-content;
-            margin: 16px;
-            padding: 21px;
-            border: 1px solid;
-        }
-        form div{
-            width:fit-content;
-        }
-        .centerInside{
-            position: relative;
-            left: 50%;
-            transform: translateX(-50%);
-        }
-        h3 button{
-            padding: 2px;
-            margin: 5px;
-        }
-        .containALL{
-            display: inline-flex;
-            padding: 8px;
-            padding-top: 0;
-        }
-        .containALL div{
-            margin-right: 10px;
-        }
-    </style>
-<!-- Side Div -->
-    <style>
-        .sideDiv{
-            width: 20%;
-            position: absolute;
-            top:0px;
-            right: 0px;
-            max-height: 100%;
-            overflow-y: auto;
-        }
-        .sideDiv h4{
-            font-size: 17px;
-        }
-        .sideDiv p{
-            font-size: 16px;
-        }
-    </style>
-<!-- Add Data Style -->
-    <style>
-        .addDataDiv{
-            position: absolute;
-            top: 20%;
-            width: 400px;
-            height: 60%;
-            left: 50%;
-            transform: translate(-50%);
-            background-color: #f0f8ffcc;
-        }
-        .addDataDiv h2{
-            background-color: #6eca8da3;
-        }
-        .addDataDiv h2 button{
-            transform: translateY(-10%);
-            width: 45%;
-            height: 100%;
-            margin-left: 2.5%;
-            margin-right: 2.5%;
-            margin-bottom: .5%;
-            margin-top: .5%;
-        }
-        .selected{
-            background-color: #11bc1175;
-        }
-        .btn{
-            border: 1px black dotted;
-        }
-        .btn:hover{
-            background-color: rgba(140, 238, 140, 0.57);
-        }
     </style>
     <script src="<?php echo base_url() ?>assets/js/Chart.js"></script>
     <script src="<?php echo base_url() ?>assets/js/gsap.min.js"></script>
@@ -128,7 +22,7 @@
 <a href="http://localhost/worktime/?dates=<?php echo date("d-m-Y",strtotime("-1 days")).",".date("d-m-Y"); ?>" style="position: absolute;top: 0%;left: 0%" target="_blank" rel="noopener noreferrer">
     Open Worktime
 </a>
-<h1>Freelancer/Remote Job Report</h1>
+<h1 class="header">Freelancer/Remote Job Report <button style="scale: .7">Get Report</button></h1>
 <div><h3 style="text-align: center"><button onclick="window.location.href='<?php echo base_url('home/previousTime');?>'"><</button><span id="weekLabel">12-03-2022 to 12-08-2022</span><button onclick="window.location.href='<?php echo base_url('home/nextTime');?>'">></button></h3></div>
 
 <!--Main Div-->
