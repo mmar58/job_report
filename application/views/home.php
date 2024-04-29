@@ -1,134 +1,27 @@
 
 <!DOCTYPE html>
 <html lang="en">
-
+<?php $server = isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : $_SERVER['SERVER_NAME'];?>
 <head>
     <link href="<?php echo base_url("assets/css/bootstrap5.3.2.min.css") ?>" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Work Report</title>
-
+    
     <!-- main css -->
-    <style>
-        h1 {
-            text-align: center;
-        }
-        h3{
-            margin: 9px;
-        }
-        .mainDiv {
-            margin-top: 3%;
-            width: 80%;
-        }
-
-        .selectTime {
-            position: relative;
-            left: 38%;
-            cursor: default;
-        }
-
-        .selectTime span {
-            border: 1px black dotted;
-            padding: 5px;
-            cursor: pointer;
-        }
-        .report_and_add{
-
-        }
-        .report_and_add button{
-            font-size: 22px;
-            margin-top: 2%;
-        }
-        .report_and_add canvas{
-            width: 100%!important;
-        }
-        form{
-            width: fit-content;
-            margin: 16px;
-            padding: 21px;
-            border: 1px solid;
-        }
-        form div{
-            width:fit-content;
-        }
-        .centerInside{
-            position: relative;
-            left: 50%;
-            transform: translateX(-50%);
-        }
-        h3 button{
-            padding: 2px;
-            margin: 5px;
-        }
-        .containALL{
-            display: inline-flex;
-            padding: 8px;
-            padding-top: 0;
-        }
-        .containALL div{
-            margin-right: 10px;
-        }
-    </style>
-<!-- Side Div -->
-    <style>
-        .sideDiv{
-            width: 20%;
-            position: absolute;
-            top:0px;
-            right: 0px;
-            max-height: 100%;
-            overflow-y: auto;
-        }
-        .sideDiv h4{
-            font-size: 17px;
-        }
-        .sideDiv p{
-            font-size: 16px;
-        }
-    </style>
-<!-- Add Data Style -->
-    <style>
-        .addDataDiv{
-            position: absolute;
-            top: 20%;
-            width: 400px;
-            height: 60%;
-            left: 50%;
-            transform: translate(-50%);
-            background-color: #f0f8ffcc;
-        }
-        .addDataDiv h2{
-            background-color: #6eca8da3;
-        }
-        .addDataDiv h2 button{
-            transform: translateY(-10%);
-            width: 45%;
-            height: 100%;
-            margin-left: 2.5%;
-            margin-right: 2.5%;
-            margin-bottom: .5%;
-            margin-top: .5%;
-        }
-        .selected{
-            background-color: #11bc1175;
-        }
-        .btn{
-            border: 1px black dotted;
-        }
-        .btn:hover{
-            background-color: rgba(140, 238, 140, 0.57);
-        }
-    </style>
+    <link href="<?php echo base_url("assets/css/main.css") ?>" rel="stylesheet">
+    <link href="<?php echo base_url("assets/css/side.css") ?>" rel="stylesheet">
+    <link href="<?php echo base_url("assets/css/popup.css") ?>" rel="stylesheet">
     <script src="<?php echo base_url() ?>assets/js/Chart.js"></script>
     <script src="<?php echo base_url() ?>assets/js/gsap.min.js"></script>
 </head>
 
 <body>
-<a href="http://localhost/worktime/?dates=<?php echo date("d-m-Y",strtotime("-1 days")).",".date("d-m-Y"); ?>" style="position: absolute;top: 0%;left: 0%" target="_blank" rel="noopener noreferrer">
+<a href="<?php echo "http://". $server;?>/worktime/?dates=<?php echo date("d-m-Y",strtotime("-1 days")).",".date("d-m-Y"); ?>" style="position: absolute;top: 0%;left: 0%" target="_blank" rel="noopener noreferrer">
     Open Worktime
 </a>
-<h1>Freelancer/Remote Job Report</h1>
+<h1 class="header">Freelancer/Remote Job Report <button style="scale: .7" onclick="showWeeklyReport()">Get Report</button></h1>
 <div><h3 style="text-align: center"><button onclick="window.location.href='<?php echo base_url('home/previousTime');?>'"><</button><span id="weekLabel">12-03-2022 to 12-08-2022</span><button onclick="window.location.href='<?php echo base_url('home/nextTime');?>'">></button></h3></div>
 
 <!--Main Div-->
@@ -187,6 +80,9 @@
         $_SESSION['timeview']="week";
     }
     $curDay=date('w');
+    ?>
+
+    <?php
     if($_SESSION['timeview']=="week"){
         $curDay+= $_SESSION['curPos']*7;
     }
@@ -221,6 +117,14 @@
     }
     $detailedWorkli.=$tempWeeklyWorkli;
     $tempWeeklyWorkli="";
+    ?>
+
+    <!--  Saving data for weekly report  -->
+    <script>
+        var startDate="<?php echo date("m.d.y",strtotime((-$curDay+1)." days"));;?>"
+        var endDate="<?php echo date("m.d.y",strtotime((6-$curDay+1)." days"));?>"
+    </script>
+    <?php
 //    $_SESSION['CREATED']=0;
     if (!isset($_SESSION['CREATED'])) {
         $_SESSION['CREATED'] = time();
@@ -250,6 +154,8 @@
     if($_SESSION['timeview']=="week"){
         $curDay+= ($_SESSION['curPos']+1)*7;
     }
+    ?>
+    <?php
     $PrestartDate=date("Y-m-d",strtotime((-$curDay+1)." days"));
     $PreendDate=date("Y-m-d",strtotime((6-$curDay+1)." days"));
     $result=$this->dbcon->searchByDate($PrestartDate,$PreendDate);
@@ -283,21 +189,21 @@
     <?php echo $detailedWorkli;?>
     </ul>
 </div>
-<!--<div class="addDataDiv">-->
-<!--<h1>Add Data</h1>-->
-<!--    <h2><button onclick="showAddDataTime()">Time</button><button onclick="showAddDataTimeLine()">Timeline</button></h2>-->
-<!--    <h2 id="AddDataHeader"  style="text-align: center">Time</h2>-->
-<!--    <div id="AddDataTimw" style="width: 100%">-->
-<!--        <div class="centerInside">-->
-<!--            <input id="DateInput" width="10" type="date" name="date">-->
-<!--        </div>-->
-<!--        <div class="centerInside">-->
-<!--            <input width="20" type="number" name="hour">:<input type="number" name="minute">-->
-<!--        </div>-->
-<!--        <input class="centerInside" type="submit">-->
-<!--    </div>-->
-<!--</div>-->
-<!--Add Data Script-->
+<div id="weeklyReportPopup" class="top_left-popup">
+<!--    Start Main Div  -->
+    <div style="margin-top: 8%">
+        <input onchange="updateShortDescriptionOfWork(this.value)" type="text" style="position: absolute;left: 0;width: 100%" placeholder="Short description of work">
+        <p id="weeklyReportOutput" style="padding-top: 30px">Date Range:04.22.24-04.28.24 Short desc of work : Worked on the Journey Creator Total : 17 hours 48 minutes BDT : 6675 USD (from google):60.82</p>
+    </div>
+<!--    End Main Div  -->
+<!--    Top Menu Button Div  -->
+    <div class="middle-popup-closeButton">
+        <button onclick="hideWeeklyReport()" type="button" class="btn btn-primary" data-bs-dismiss="modal">Copy</button>
+        <button onclick="hideWeeklyReport()" type="button" class="btn btn-primary" data-bs-dismiss="modal" style="display: none">Close</button>
+    </div>
+    <!--   End Top Menu Button Div  -->
+</div>
+<!--Report Script Ends-->
 <script>
     var addDataHeader=document.getElementById("AddDataHeader")
     function showAddDataTime(){
@@ -351,6 +257,7 @@
     }
 </script>
 <!--End Gsap Animation functions-->
+<!--Setting Data Starts-->
 <script>
     var primaryColor="#6eca8d"
     var weekLabel=document.getElementById("weekLabel")
@@ -442,5 +349,47 @@
         console.log(targetHour)
     }
 </script>
+<!--Setting Data Ends-->
+<!--Week report script-->
+<script>
+    var dateRange="Date Range : "+startDate+"-"+endDate
+    var shortDescriptionOfWork="Short desc of work : "
+    var dollarRate=0
+    console.log(dateRange)
+    var weeklyReport=""
+    var weeklyReportOutput=document.getElementById("weeklyReportOutput")
+    //Show functions
+    var weeklyReportPopup=document.getElementById("weeklyReportPopup")
+    function  updateShortDescriptionOfWork(text){
+        shortDescriptionOfWork="Short desc of work : "+text
+        createWeeklyReport()
+    }
+    function createWeeklyReport(){
+        weeklyReport=dateRange+". "+shortDescriptionOfWork;
+        //Adding time
+        weeklyReport+=" "+"Total : "+"<?php if($showHours>0){
+            echo $showHours." hours ";
+        }
+            if($showMinutes>0){
+                echo $showMinutes." minutes ";
+            }?>"
+        //Adding BDT
+        weeklyReport+="BDT : <?Php echo $Earning1;?>"
+        //Adding USD
+        weeklyReport+=" USD (from google) : "+(<?Php echo $Earning1;?>/dollarRate)
+        weeklyReportOutput.innerText=weeklyReport
+    }
+    fetch("http://www.geoplugin.net/json.gp?ip=103.205.134.44").then(result=>{ return result.json()}).then(json=>{dollarRate=json["geoplugin_currencyConverter"];console.log("Dollar rate "+dollarRate);createWeeklyReport()})
+
+    function showWeeklyReport(){
+        weeklyReportPopup.style.display=""
+        // Get dollar rate code
+    }
+    function hideWeeklyReport(){
+        weeklyReportPopup.style.display="none"
+    }
+
+</script>
+<!---->
 </body>
 </html>

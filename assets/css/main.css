@@ -1,0 +1,62 @@
+h1 {
+    text-align: center;
+}
+h3{
+    margin: 9px;
+}
+.mainDiv {
+    margin-top: 3%;
+    width: 80%;
+}
+.header{
+    margin-left: 20%;
+    margin-right: 20%;
+}
+.selectTime {
+    position: relative;
+    left: 38%;
+    cursor: default;
+}
+
+.selectTime span {
+    border: 1px black dotted;
+    padding: 5px;
+    cursor: pointer;
+}
+.report_and_add{
+
+}
+.report_and_add button{
+    font-size: 22px;
+    margin-top: 2%;
+}
+.report_and_add canvas{
+    width: 100%!important;
+}
+form{
+    width: fit-content;
+    margin: 16px;
+    padding: 21px;
+    border: 1px solid;
+}
+form div{
+    width:fit-content;
+}
+.centerInside{
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+}
+h3 button{
+    padding: 2px;
+    margin: 5px;
+}
+.containALL{
+    display: inline-flex;
+    padding: 8px;
+    padding-top: 0;
+}
+.containALL div{
+    margin-right: 10px;
+}
+/*Week Report classes*/

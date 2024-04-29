@@ -1,0 +1,23 @@
+.top_left-popup{
+    position: absolute;
+    left: 0;
+    top: 4%;
+    width: 31% !important;
+    background: beige;
+}
+.middle-popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-65%, -50%);
+    background-color: white;
+    padding: 20px;
+    border-radius: 5px;
+    z-index: 10;
+    /* Ensure the popup is on top of other elements */
+  }
+.middle-popup-closeButton{
+    position: absolute;
+    top: 0%;
+    right: 0%;
+}
