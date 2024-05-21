@@ -21,7 +21,7 @@
 <a href="<?php echo "http://". $server;?>/worktime/?dates=<?php echo date("d-m-Y",strtotime("-1 days")).",".date("d-m-Y"); ?>" style="position: absolute;top: 0%;left: 0%" target="_blank" rel="noopener noreferrer">
     Open Worktime
 </a>
-<h1 class="header">Freelancer/Remote Job Report <button style="scale: .7" onclick="showWeeklyReport()">Get Report</button></h1>
+<h1 class="header">Freelancer/Remote Job Report</h1>
 <div><h3 style="text-align: center"><button onclick="window.location.href='<?php echo base_url('home/previousTime');?>'"><</button><span id="weekLabel">12-03-2022 to 12-08-2022</span><button onclick="window.location.href='<?php echo base_url('home/nextTime');?>'">></button></h3></div>
 
 <!--Main Div-->
@@ -192,14 +192,15 @@
 <div id="weeklyReportPopup" class="top_left-popup">
 <!--    Start Main Div  -->
     <div style="margin-top: 8%">
-        <input onchange="updateShortDescriptionOfWork(this.value)" type="text" style="position: absolute;left: 0;width: 100%" placeholder="Short description of work">
+        <input id="workDescriptionInput" onchange="updateShortDescriptionOfWork(this.value)" type="text" style="position: absolute;left: 0;width: 100%" placeholder="Short description of work">
         <p id="weeklyReportOutput" style="padding-top: 30px">Date Range:04.22.24-04.28.24 Short desc of work : Worked on the Journey Creator Total : 17 hours 48 minutes BDT : 6675 USD (from google):60.82</p>
     </div>
 <!--    End Main Div  -->
 <!--    Top Menu Button Div  -->
     <div class="middle-popup-closeButton">
+        <button type="button" data-bs-dismiss="modal">Dollar Rate <span id="DollarRateOutput"></span></button>
         <button onclick="hideWeeklyReport()" type="button" class="btn btn-primary" data-bs-dismiss="modal">Copy</button>
-        <button onclick="hideWeeklyReport()" type="button" class="btn btn-primary" data-bs-dismiss="modal" style="display: none">Close</button>
+        <button onclick="hideWeeklyReport()" type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
     </div>
     <!--   End Top Menu Button Div  -->
 </div>
@@ -351,6 +352,10 @@
 </script>
 <!--Setting Data Ends-->
 <!--Week report script-->
+<!--Declaring local storage vars to save data-->
+<script>
+    var dollarRateCommand="DollarRate", workDescriptionCommand="WorkDescription"
+</script>
 <script>
     var dateRange="Date Range : "+startDate+"-"+endDate
     var shortDescriptionOfWork="Short desc of work : "
@@ -358,10 +363,12 @@
     console.log(dateRange)
     var weeklyReport=""
     var weeklyReportOutput=document.getElementById("weeklyReportOutput")
+    var dollarRateOutput=document.getElementById("DollarRateOutput")
     //Show functions
     var weeklyReportPopup=document.getElementById("weeklyReportPopup")
     function  updateShortDescriptionOfWork(text){
         shortDescriptionOfWork="Short desc of work : "+text
+        localStorage.setItem(workDescriptionCommand,text)
         createWeeklyReport()
     }
     function createWeeklyReport(){
@@ -377,9 +384,23 @@
         weeklyReport+="BDT : <?Php echo $Earning1;?>"
         //Adding USD
         weeklyReport+=" USD (from google) : "+(<?Php echo $Earning1;?>/dollarRate)
+            dollarRateOutput.innerText=dollarRate
         weeklyReportOutput.innerText=weeklyReport
     }
-    fetch("http://www.geoplugin.net/json.gp?ip=103.205.134.44").then(result=>{ return result.json()}).then(json=>{dollarRate=json["geoplugin_currencyConverter"];console.log("Dollar rate "+dollarRate);createWeeklyReport()})
+    function updateDataFromLocalStorage(){
+        var localStorageDollarRate=localStorage.getItem(dollarRateCommand)
+        if(localStorageDollarRate!=null&&localStorageDollarRate!=""){
+            dollarRate=parseFloat(localStorageDollarRate)
+            var localStorageWorkDescription=localStorage.getItem(workDescriptionCommand)
+            if(localStorageWorkDescription!=null&&localStorageWorkDescription!=""){
+                document.getElementById("workDescriptionInput").value=localStorageWorkDescription
+                shortDescriptionOfWork="Short desc of work : "+localStorageWorkDescription
+            }
+            createWeeklyReport()
+        }
+    }
+    updateDataFromLocalStorage()
+    fetch("http://www.geoplugin.net/json.gp?ip=103.205.134.44").then(result=>{ return result.json()}).then(json=>{dollarRate=json["geoplugin_currencyConverter"];localStorage.setItem(dollarRateCommand,dollarRate+"");createWeeklyReport()})
 
     function showWeeklyReport(){
         weeklyReportPopup.style.display=""
