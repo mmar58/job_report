@@ -3,7 +3,7 @@
 
   
 
-![enter image description here](https://github.com/mmar58/job_report/blob/f6de9e63e0ddda3008b7badd947de68f0672dfd5/output/job_report.PNG)
+![ScreenShot](https://github.com/mmar58/job_report/blob/f6de9e63e0ddda3008b7badd947de68f0672dfd5/output/job_report.PNG)
 
   
 
@@ -61,28 +61,5 @@ Note sync is work for staffcounter system
 
   
 
-## Next Tasks
-
-  
-
-1. Add weekly Target setup
-
-2. Add hourly target each day based on work on previous days
-
-3. Show total work done in the week
-
-4. add calculation or total weekly hour
-
-5. add month, year view
-
-  
-
-## done
-
-  
-
-- Add time choices
-
-- You can add data
-
-- You can see in week view
+## Working
+- Adding new UI

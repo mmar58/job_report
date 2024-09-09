@@ -14,7 +14,18 @@ class Dbcon extends Base
         };
         redirect("home");
     }
+    public function getWeeklyData($weekOffset) {
+        // Calculate the start and end dates for the requested week
+        $startDate = date('Y-m-d', strtotime("monday this week $weekOffset week"));
+        $endDate = date('Y-m-d', strtotime("sunday this week $weekOffset week"));
+        // Fetch data from the 'dailywork' table
+        $this->db->from($this->dailywork);
+        $this->db->where('date >=', $startDate);
+        $this->db->where('date <=', $endDate);
 
+        $query = $this->db->get();
+        return $query->result_array();
+    }
     public function  getdate($date){
         $this->db->from($this->dailywork);
         $this->db->where("date",$date);

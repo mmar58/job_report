@@ -133,7 +133,7 @@
         $_SESSION['CREATED'] = time();
         if($_SESSION['curPos']==0){
             if($hasTodaysData){
-                file_get_contents("http://localhost/worktime?dates=".date("d-m-Y"));
+                file_get_contents("http://localhost/worktime");
             }
             else{
                 file_get_contents("http://localhost/worktime?dates=".date("d-m-Y").",".date("d-m-Y", strtotime("-1 day")));
@@ -199,7 +199,7 @@
 <!--    Top Menu Button Div  -->
     <div class="middle-popup-closeButton">
         <button type="button" data-bs-dismiss="modal">Dollar Rate <span id="DollarRateOutput"></span></button>
-        <button onclick="hideWeeklyReport()" type="button" class="btn btn-primary" data-bs-dismiss="modal">Copy</button>
+        <button onclick="copyToClipBoard()" type="button" class="btn btn-primary" data-bs-dismiss="modal">Copy</button>
         <button onclick="hideWeeklyReport()" type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
     </div>
     <!--   End Top Menu Button Div  -->
@@ -386,6 +386,9 @@
         weeklyReport+=" USD (from google) : "+(<?Php echo $Earning1;?>/dollarRate)
             dollarRateOutput.innerText=dollarRate
         weeklyReportOutput.innerText=weeklyReport
+    }
+    function copyToClipBoard(){
+        navigator.clipboard.writeText(weeklyReport);
     }
     function updateDataFromLocalStorage(){
         var localStorageDollarRate=localStorage.getItem(dollarRateCommand)

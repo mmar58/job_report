@@ -7,9 +7,7 @@ class Home extends CI_Controller
         parent::__construct();
         $this->load->model('dbcon');
     }
-
 	public function index(){
-
         $this->load->view("home");
 	}
     public function previousTime(){
@@ -19,6 +17,24 @@ class Home extends CI_Controller
     public function nextTime(){
         $_SESSION['curPos']-=1;
         redirect('');
+    }
+    public function getWeeklyWork($weekOffset = 0) {
+        // Validate and sanitize the input
+        $weekOffset = intval($weekOffset);
+
+        // Call the model to fetch the data
+        $result = $this->dbcon->getWeeklyData($weekOffset);
+
+        // Output the result as JSON
+        if ($result) {
+            $this->output
+                ->set_content_type('application/json')
+                ->set_output(json_encode($result));
+        } else {
+            $this->output
+                ->set_content_type('application/json')
+                ->set_output(json_encode(['error' => 'No data found']));
+        }
     }
     public function uploadData(){
         $date=$_POST['date'];
