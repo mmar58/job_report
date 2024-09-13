@@ -16,7 +16,6 @@
     <script src="<?php echo base_url() ?>assets/js/Chart.js"></script>
     <script src="<?php echo base_url() ?>assets/js/gsap.min.js"></script>
 </head>
-
 <body>
 <a href="<?php echo "http://". $server;?>/worktime/?dates=<?php echo date("d-m-Y",strtotime("-1 days")).",".date("d-m-Y"); ?>" style="position: absolute;top: 0%;left: 0%" target="_blank" rel="noopener noreferrer">
     Open Worktime

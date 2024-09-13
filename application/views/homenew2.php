@@ -1,199 +1,15 @@
 <html><head><base href="https://workmetrics.ai/">
-    <title>WorkMetrics - Advanced Work Report Dashboard</title>
+    <title>Work Report Dashboard</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script src="<?php echo base_url("assets/homenew/js/chart.js");?>"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f0f4f8;
-            display: flex;
-        }
-        .main-content {
-            flex: 1;
-            padding: 20px;
-            transition: margin-right 0.3s ease-in-out;
-        }
-        .header {
-            background-color: #3498db;
-            color: white;
-            padding: 20px;
-            text-align: center;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-        .dashboard {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 20px;
-            margin-top: 20px;
-        }
-        .card {
-            background-color: white;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            padding: 20px;
-            flex: 1 1 calc(50% - 10px);
-            transition: transform 0.3s ease;
-        }
-        .card:hover {
-            transform: translateY(-5px);
-        }
-        .chart-container {
-            position: relative;
-            height: 300px;
-        }
-        .filters {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 20px;
-        }
-        .navigation-controls {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        select, input {
-            padding: 10px;
-            border-radius: 4px;
-            border: 1px solid #bdc3c7;
-            font-size: 14px;
-        }
-        .nav-button {
-            background-color: #3498db;
-            color: white;
-            border: none;
-            padding: 10px 15px;
-            font-size: 18px;
-            cursor: pointer;
-            border-radius: 5px;
-            transition: background-color 0.3s ease;
-        }
-        .nav-button:hover {
-            background-color: #2980b9;
-        }
-        .income-summary {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 20px;
-        }
-        .income-item {
-            text-align: center;
-            background-color: #ecf0f1;
-            padding: 15px;
-            border-radius: 8px;
-            transition: background-color 0.3s ease;
-        }
-        .income-item:hover {
-            background-color: #d5dbdb;
-        }
-        .income-value {
-            font-size: 24px;
-            font-weight: bold;
-            color: #2980b9;
-        }
-        .sidebar {
-            width: 300px;
-            background-color: #2c3e50;
-            color: white;
-            padding: 20px;
-            position: fixed;
-            right: -300px;
-            top: 0;
-            bottom: 0;
-            transition: right 0.3s ease-in-out;
-            overflow-y: auto;
-        }
-        .sidebar.open {
-            right: 0;
-        }
-        .sidebar-toggle {
-            position: fixed;
-            right: 20px;
-            top: 20px;
-            background-color: #3498db;
-            color: white;
-            border: none;
-            padding: 10px 15px;
-            font-size: 18px;
-            cursor: pointer;
-            border-radius: 5px;
-            z-index: 1000;
-        }
-        .target-progress {
-            margin-top: 20px;
-        }
-        .progress-bar {
-            width: 100%;
-            height: 20px;
-            background-color: #34495e;
-            border-radius: 10px;
-            overflow: hidden;
-            margin-top: 10px;
-        }
-        .progress-fill {
-            height: 100%;
-            background-color: #2ecc71;
-            transition: width 0.5s ease-in-out;
-        }
-        .target-icon {
-            font-size: 48px;
-            text-align: center;
-            margin-bottom: 20px;
-            transition: color 0.5s ease-in-out;
-        }
-        .target-stats {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 10px;
-        }
-        .target-stat {
-            text-align: center;
-        }
-        .target-value {
-            font-size: 24px;
-            font-weight: bold;
-            color: #2ecc71;
-        }
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
-        }
-        .pulse {
-            animation: pulse 2s infinite;
-        }
-        .minimized-progress {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            width: 200px;
-            height: 10px;
-            background-color: #34495e;
-            border-radius: 5px;
-            cursor: pointer;
-            overflow: hidden;
-            z-index: 1000;
-        }
-        .minimized-progress-fill {
-            height: 100%;
-            background-color: #2ecc71;
-            transition: width 0.5s ease-in-out;
-        }
-        .date-range {
-            font-size: 18px;
-            font-weight: bold;
-            margin-bottom: 15px;
-            color: #2c3e50;
-        }
-    </style>
+    <link rel="stylesheet" href="<?php echo base_url("assets/css/newmain.css");?>" >
 </head>
 <body>
 <div class="main-content">
     <div class="header">
-        <h1>WorkMetrics Dashboard</h1>
+        <h1>Work Report Dashboard (<?php echo date('l d/m/Y');?>)</h1>
     </div>
     <div class="filters">
         <div class="navigation-controls">
@@ -239,7 +55,6 @@
 </button>
 
 <div class="sidebar" id="sidebar">
-    <h2>Target Progress</h2>
     <div class="target-icon pulse" id="target-icon">
         <i class="fas fa-bullseye"></i>
     </div>
@@ -270,8 +85,16 @@
 </div>
 
 <script>
+    // Global variables for period navigation
+    let currentPeriodIndex = 0;
+    let apiPath="<?php echo base_url("home/getWeeklyWork/");?>"
+    const maxPeriods = 10; // Adjust this value based on how many past periods you want to allow
+    const graphCanvas=document.getElementById('work-hours-chart')
+    let sideMenuWidth=236;
+    let currentWeekDays="",previousWeekDays=""
+    let dateRangeDiv=document.getElementById("date-range")
     // Sample data (replace with real data from your backend)
-    const workData = {
+    let workData = {
         week: {
             current: [8, 7, 9, 8, 7, 0, 0],
             previous: [7, 8, 8, 9, 8, 0, 0]
@@ -286,14 +109,14 @@
         }
     };
 
-    const incomeData = {
+    let incomeData = {
         week: 1200,
         month: 5200,
         year: 62000
     };
 
     // Chart initialization
-    const ctx = document.getElementById('work-hours-chart').getContext('2d');
+    const ctx = graphCanvas.getContext('2d');
     let workHoursChart = new Chart(ctx, {
         type: 'bar',
         data: {
@@ -319,9 +142,7 @@
         }
     });
 
-    // Global variables for period navigation
-    let currentPeriodIndex = 0;
-    const maxPeriods = 10; // Adjust this value based on how many past periods you want to allow
+
 
     // Update chart based on selected time range
     document.getElementById('time-range').addEventListener('change', function() {
@@ -331,29 +152,217 @@
 
     // Add event listeners for navigation buttons
     document.getElementById('prev-period').addEventListener('click', function() {
-        if (currentPeriodIndex < maxPeriods - 1) {
-            currentPeriodIndex++;
-            updateChart();
-        }
+
+            currentPeriodIndex--;
+            fetch(apiPath+currentPeriodIndex).then(response=>{return response.json()}).then(json=>{updateCurrentDate(json);console.log(json)})
+            // console.log(apiPath+currentPeriodIndex)
+            fetch(apiPath+(currentPeriodIndex-1)).then(response=>{return response.json()}).then(json=>{updatePreviousDate(json);console.log(json)})
+
     });
 
     document.getElementById('next-period').addEventListener('click', function() {
-        if (currentPeriodIndex > 0) {
-            currentPeriodIndex--;
-            updateChart();
+        if (currentPeriodIndex < 0) {
+            currentPeriodIndex++;
+            fetch(apiPath+currentPeriodIndex).then(response=>{return response.json()}).then(json=>{updateCurrentDate(json);console.log(json)})
+            fetch(apiPath+(currentPeriodIndex-1)).then(response=>{return response.json()}).then(json=>{updatePreviousDate(json);console.log(json)})
         }
     });
+    let today;
+    function UpdateDateRange(){
+        dateRangeDiv.innerHTML=currentWeekDays+" "+previousWeekDays
+    }
+    function getStartDate(weekOffset = 0) {
+        today = new Date();
+
+        // Get the current day of the week (0 = Sunday, 1 = Monday, etc.)
+        const currentDay = today.getDay();
+
+        // Calculate the difference to the Monday of the current week
+        const diffToMonday = (currentDay === 0 ? -6 : 1) - currentDay;
+
+        // Start date (Monday of the week with the offset)
+        let startDate = new Date(today);
+        startDate.setDate(today.getDate() + diffToMonday + (weekOffset * 7));
+
+        return startDate;
+    }
+    function updateSpecificData(json){
+        json.forEach(jsonData=>{
+            let tempDateData=jsonData.date.split("-")
+            let date = new Date(tempDateData[2]+"-"+tempDateData[1]+"-"+tempDateData[0]);
+            // console.log(date)
+            // Get the day of the week (Sunday is 0, Monday is 1, etc.)
+           let day = date.getDay();
+            // console.log(day)
+            // Shift the day to make Monday 0, and Sunday 6
+            let adjustedDay = (day + 6) % 7;
+            while(workHoursChart.data.datasets[0].data.length-1<adjustedDay){
+                workHoursChart.data.datasets[0].data.push(0)
+            }
+            // console.log(adjustedDay)
+            // console.log(workHoursChart.data.datasets[0].data)
+            workHoursChart.data.datasets[0].data[adjustedDay]=parseInt(jsonData.hours)+(parseInt(jsonData.minutes)+parseInt(jsonData.extraMinutes))/60
+            // console.log(workHoursChart.data.datasets[0].data)
+        })
+        workHoursChart.update();
+    }
+    function updateCurrentDate(json){
+        const range = document.getElementById('time-range').value;
+        let labels=[], currentData=[]
+        let startDate=getStartDate(currentPeriodIndex)
+        let totalHour=0,totalMinute=0
+        let hasCurrentData=false
+        currentWeekDays=""
+        if (range === 'week') {
+            labels=['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
+            // Index for the json data
+            let jsonIndex=0
+            // Looping to get all the data
+            for(let i=0;i<7;i++){
+                // If json index is less than it's length
+                if(jsonIndex<json.length){
+                    // Matching for today's data
+                    if(currentPeriodIndex==0&&!hasCurrentData){
+                        if(today.toISOString().slice(0, 10)==json[jsonIndex].date){
+                            hasCurrentData=true;
+                        }
+                    }
+                    // If the date match with the json index data
+                    if(json[jsonIndex].date==startDate.toISOString().slice(0, 10)){
+                        currentData.push(parseInt(json[jsonIndex].hour)+(parseInt(json[jsonIndex].minutes)+parseInt(json[jsonIndex].extraminutes))/60)
+                        // Updating total data
+                        try{
+                            totalHour+=parseInt(json[jsonIndex].hour)
+                            totalMinute+=parseInt(json[jsonIndex].minutes)+parseInt(json[jsonIndex].extraminutes)
+                        }
+                        catch{
+
+                        }
+
+                        jsonIndex++
+                    }
+                    else{
+                        console.log("Not Matched "+json[jsonIndex].date+" with "+startDate.toISOString().slice(0, 10))
+
+                    }
+                    if(i==0){
+                        currentWeekDays="<span style='margin-left: 15px'>"+startDate.toISOString().slice(0, 10)+"-"
+                    }
+                    else if(i==json.length-1){
+                        let mHour=Math.floor(totalMinute/60)
+                        totalHour+=mHour
+                        totalMinute-=mHour*60
+                        currentWeekDays+=startDate.toISOString().slice(0, 10)+"  "+totalHour+":"+totalMinute+"</span>"
+                    }
+                    // console.log(currentWeekDays)
+                    // Updating start date
+                    startDate.setDate(startDate.getDate()+1)
+                }
+                else{
+                    // console.log(currentData)
+                    break;
+                }
+            }
+            UpdateDateRange()
+        } else if (range === 'month') {
+            labels = ['Week 1', 'Week 2', 'Week 3', 'Week 4'];
+            currentData = generateData(workData.month.current, currentPeriodIndex);
+        } else {
+            labels = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+            currentData = generateData(workData.year.current, currentPeriodIndex);
+        }
+
+        workHoursChart.data.labels = labels;
+        workHoursChart.data.datasets[0].data = currentData;
+        workHoursChart.update();
+        if(currentPeriodIndex==0){
+            if(hasCurrentData){
+                fetch("http://localhost/worktimev2/").then(response=>response.json()).then(json=>updateSpecificData(json))
+            }
+            else{
+                var dates=today.toISOString().slice(0, 10)
+                today.setDate(today.getDate()-1)
+                dates=today.toISOString().slice(0, 10)+","+dates
+                fetch("http://localhost/worktimev2/?dates="+dates).then(response=>response.json()).then(json=>updateSpecificData(json))
+            }
+        }
+        // Update income summary
+        const incomeMultiplier = 1 - (currentPeriodIndex * 0.05); // Decrease income for past periods
+        document.getElementById('week-income').textContent = Math.round(incomeData.week * incomeMultiplier);
+        document.getElementById('month-income').textContent = Math.round(incomeData.month * incomeMultiplier);
+        document.getElementById('year-income').textContent = Math.round(incomeData.year * incomeMultiplier);
+
+        updateProgress();
+    }
+    function updatePreviousDate(json){
+        const range = document.getElementById('time-range').value;
+        let  previousData=[]
+        let startDate=getStartDate(currentPeriodIndex-1)
+        let totalHour=0,totalMinute=0
+        previousWeekDays=""
+        if (range === 'week') {
+            let jsonIndex=0
+            for(let i=0;i<7;i++){
+                if(jsonIndex<json.length){
+                    if(json[jsonIndex].date==startDate.toISOString().slice(0, 10)){
+                        previousData.push(parseInt(json[jsonIndex].hour)+(parseInt(json[jsonIndex].minutes)+parseInt(json[jsonIndex].extraminutes))/60)
+
+                        try{
+                            totalHour+=parseInt(json[jsonIndex].hour)
+                        }
+                        catch{
+
+                        }
+                        try{
+                            totalMinute+=parseInt(json[jsonIndex].minutes)+parseInt(json[jsonIndex].extraminutes)
+                        }
+                        catch{
+
+                        }
+                        jsonIndex++
+                    }
+                    else{
+                        console.log("Not Matched "+json[jsonIndex].date+" with "+startDate.toISOString().slice(0, 10))
+
+                    }
+                    // Update Date Range
+
+                    if(i==0){
+                        previousWeekDays="<span style='margin-left: 30px'>"+startDate.toISOString().slice(0, 10)+"-"
+                    }
+                    else if(i==json.length-1){
+                        let mHour=Math.floor(totalMinute/60)
+                        totalHour+=mHour
+                        totalMinute-=mHour*60
+                        previousWeekDays+=startDate.toISOString().slice(0, 10)+"  "+totalHour+":"+totalMinute+"</span>"
+                    }
+                    // Updating start date
+                    startDate.setDate(startDate.getDate()+1)
+                }
+                else{
+                    break;
+                }
+            }
+            UpdateDateRange()
+        } else if (range === 'month') {
+            previousData = generateData(workData.month.current, currentPeriodIndex);
+        } else {
+            previousData = generateData(workData.year.current, currentPeriodIndex);
+        }
+        workHoursChart.data.datasets[1].data = previousData;
+        workHoursChart.update();
+    }
 
     // Update the updateChart function
-    function updateChart() {
+    function updateChart(json) {
         const range = document.getElementById('time-range').value;
-        let labels, currentData, previousData;
-
+        let labels=[], currentData, previousData;
+        let startDate=getStartDate(currentPeriodIndex)
         if (range === 'week') {
-            labels = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+            labels=['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
+
             currentData = generateData(workData.week.current, currentPeriodIndex);
             previousData = generateData(workData.week.previous, currentPeriodIndex);
-            console.log(currentData)
         } else if (range === 'month') {
             labels = ['Week 1', 'Week 2', 'Week 3', 'Week 4'];
             currentData = generateData(workData.month.current, currentPeriodIndex);
@@ -389,7 +398,8 @@
     // Update target progress
     function updateProgress() {
         const target = parseInt(document.getElementById('hourly-target').value) || 0;
-        const completed = workData.week.current.reduce((a, b) => a + b, 0);
+        let completed = workHoursChart.data.datasets[0].data.reduce((a, b) => a + b, 0);
+        completed=completed.toFixed(2);
         const percentage = target > 0 ? Math.round((completed / target) * 100) : 0;
 
         document.getElementById('target-value').textContent = target;
@@ -400,22 +410,28 @@
 
         // Update target icon color based on progress
         const targetIcon = document.getElementById('target-icon');
-        if (percentage < 33) {
-            targetIcon.style.color = '#e74c3c'; // Red for low progress
-        } else if (percentage < 66) {
-            targetIcon.style.color = '#f39c12'; // Orange for medium progress
+        if (percentage < 20) {
+            targetIcon.style.color = '#d52816'; // Red for very low progress
+        } else if (percentage < 30) {
+            targetIcon.style.color = '#bb533f'; // Orange-red for low progress
+        } else if (percentage < 40) {
+            targetIcon.style.color = '#ad8e17'; // Orange-red for low progress
+        }else if (percentage < 60) {
+            targetIcon.style.color = '#da9b35'; // Orange for medium progress
+        } else if (percentage < 70) {
+            targetIcon.style.color = '#f1c40f'; // Yellow for medium-high progress
+        } else if (percentage < 80) {
+            targetIcon.style.color = '#87ea89'; // Orange-red for low progress
+        }else if (percentage < 90) {
+            targetIcon.style.color = '#23a25a'; // Green for high progress
         } else {
-            targetIcon.style.color = '#2ecc71'; // Green for high progress
+            targetIcon.style.color = '#0d572d'; // Dark green for very high progress
         }
     }
-
-    document.getElementById('hourly-target').addEventListener('input', updateProgress);
-
-    // Sidebar toggle
-    document.getElementById('sidebar-toggle').addEventListener('click', function() {
-        const sidebar = document.getElementById('sidebar');
-        const mainContent = document.querySelector('.main-content');
-        const minimizedProgress = document.getElementById('minimized-progress');
+    const sidebar = document.getElementById('sidebar');
+    const mainContent = document.querySelector('.main-content');
+    const minimizedProgress = document.getElementById('minimized-progress');
+    function toggleSideBar(){
         sidebar.classList.toggle('open');
         if (sidebar.classList.contains('open')) {
             mainContent.style.marginRight = '300px';
@@ -424,7 +440,12 @@
             mainContent.style.marginRight = '0';
             minimizedProgress.style.display = 'block';
         }
-    });
+
+    }
+    document.getElementById('hourly-target').addEventListener('input', updateProgress);
+
+    // Sidebar toggle
+    document.getElementById('sidebar-toggle').addEventListener('click', toggleSideBar);
 
     // Minimized progress bar click
     document.getElementById('minimized-progress').addEventListener('click', function() {
@@ -440,6 +461,10 @@
     document.getElementById('time-range').dispatchEvent(new Event('change'));
     document.getElementById('hourly-target').value = 40;
     updateProgress();
+    fetch(apiPath+currentPeriodIndex).then(response=>{return response.json()}).then(json=>{updateCurrentDate(json)})
+    fetch(apiPath+(currentPeriodIndex-1)).then(response=>{return response.json()}).then(json=>{updatePreviousDate(json)})
+    toggleSideBar()
+    fetch("http://localhost/worktimev2/?dates=10-09-2024,11-09-2024").then(response=>{return response.json()}).then(json=>console.log(json))
 </script>
 
 </body></html>
